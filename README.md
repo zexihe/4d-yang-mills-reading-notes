@@ -1,4 +1,4 @@
-# Reading Notes on Four-Dimensional Yang–Mills Theory
+# Reading Notes on OpenAI’s Lean Proof for Four-Dimensional Yang–Mills Theory
 
 Maintained by Zexi He.
 
