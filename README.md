@@ -9,7 +9,7 @@ These notes are intended for personal study and discussion of the four-dimension
 The repository contains two collections:
 
 - **AI-generated working exposition:** [PDF](4DYM_reading_notes.pdf) · [TeX source](4DYM_reading_notes.tex), a developing account based on the Lean construction and related mathematical expositions.
-- **Personal study notes:** [PDF](notes/YM4_study_notes.pdf) · [TeX source](notes/YM4_study_notes.tex), developed from my handwritten notes and transcribed, translated and edited into English with AI assistance.
+- **Personal study notes:** [PDF](notes/YM4_study_notes.pdf) · [TeX source](notes/YM4_study_notes.tex), developed from my handwritten notes and transcribed, translated and edited into English with AI assistance. The 15 November 2026 installment covers Wilson measures, exact blocking, tree gauge, Gaussian normalization, the central logarithmic estimate, and conditional small-chart and plaquette-small tail bounds. It also includes a summary of exact sector reassembly and the complementary good–bad tail split. The model-dependent inputs and the remaining large-plaquette contribution are identified explicitly.
 
 I do not aim for a line-by-line correspondence with Lean. Some notation has been changed to suit my use. AI is also used to expand intermediate calculations and explore possible simplifications. These adaptations require their own justification and do not inherit the verification status of the formal source.
 
@@ -23,7 +23,7 @@ These notes have not been mechanically checked against Lean, and I have not loca
 
 **Current status.** The proof draft has been assembled through its final construction argument, but remains a working exposition subject to correction. It has not undergone an exhaustive independent mathematical review.
 
-The main exposition was updated on 15 November 2026 from the manuscript revision of 14 November 2026.
+The main exposition was updated on 15 November 2026 from the manuscript revision of 15 November 2026.
 
 The notes do not claim a proof of a positive mass gap.
 
