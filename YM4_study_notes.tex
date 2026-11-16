@@ -1,6 +1,7 @@
 % !TeX program = xelatex
-% English publication copy adapted from the 43-page handwritten transcription.
-% Source pp. 35--40 supply the stage summary; the appendix occupies pp. 41--43.
+% English publication copy adapted from the 53-page handwritten source.
+% Added source pp. 41--43 and 48--52; the Haar appendix is on source pp. 45--47.
+% Blank source pp. 44 and 53 are omitted.
 % Approved domain correction on source p. 33: enlargement of the Haar domain gives an inequality.
 % Approved local amendment: define Omega on source p. 16, retain the domain
 % in the sector integral and use {z : m+gz in Omega} after the change of variables.
@@ -28,7 +29,7 @@
 \renewcommand{\textfraction}{.12}
 \AddToHook{cmd/section/before}{\Needspace{6\baselineskip}}
 \AddToHook{cmd/subsection/before}{\Needspace{4\baselineskip}}
-% All seven diagrams below are native, editable TikZ; no image files are used.
+% All diagrams below are native, editable TikZ; no image files are used.
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta,decorations.markings,decorations.pathreplacing}
 \tikzset{
@@ -90,7 +91,7 @@
 \date{}
 \AddToHook{cmd/@setauthors/after}{%
   \begingroup\centering\normalfont\footnotesize
-  Personal study notes --- 15 November 2026\par\endgroup}
+  Personal study notes --- 16 November 2026\par\endgroup}
 \begin{document}
 
 \maketitle
@@ -102,8 +103,10 @@ working exposition \cite{Exposition}, based on the OpenAI Yang--Mills Lean
 project; source provenance and review limits are described in the repository
 README. This installment covers the Wilson measure, exact blocking, tree gauge,
 exponential coordinates, the central Gaussian estimate, conditional tail
-bounds and a summary of exact sector reassembly. The model-dependent inputs
-are stated explicitly; the continuum
+bounds and a summary of exact sector reassembly. This installment also
+calculates the Hessian at the identity and proves a blocking Poincar\'e
+estimate for the straight-path predictor. The remaining model-dependent
+inputs are stated explicitly; the continuum
 construction is not established here. Corrections and missing references are welcome.
 \end{list}
 
@@ -1987,6 +1990,138 @@ value bound to be supplied; the later localization and activity estimates
 are separate steps. No such uniformity is inferred here solely by taking
 $g$ small or $D$ large.
 
+\section{The Hessian at the identity}\label{sec:identity-hessian}
+We now begin to verify the inputs used above. We remain in the all-active
+sector $I_{\mathrm a}=I$ and first calculate only at $(V,y)=(\id,0)$.
+Recall that
+\begin{equation}\label{eq:identity-action}
+\varphi(V,y)=W_\ell(U(V,y))
++a\sum_bq_G\bigl(V_bQ(U(V,y))_b^{-1}\bigr),
+\end{equation}
+where $b$ ranges over the coarse links. Assume $R_e(\id)=\id$.
+Then $\varphi(\id,0)=0$. Take
+\begin{equation}\label{eq:identity-variation}
+u=(u_e)_{e\in I}\in\g^I
+\end{equation}
+and extend $u$ by zero on the tree links. Along $y=tu$, all fine links
+are $U_e=e^{tu_e}$, and
+\begin{equation}\label{eq:identity-varied-action}
+\varphi(\id,tu)=W_\ell(U(\id,tu))
++a\sum_bq_G\bigl(Q(U(\id,tu))_b^{-1}\bigr).
+\end{equation}
+We verify $D_y\varphi(\id,0)=0$ and compute its Hessian.
+
+\subsection{The Wilson term}
+For a plaquette $p$, write its four boundary links, in traversal order,
+as $e_1,e_2,e_3,e_4$. A reverse traversal contributes $-u_e$.
+Thus
+\begin{equation}\label{eq:identity-plaquette-product}
+U_p=e^{tu_{e_1}}e^{tu_{e_2}}e^{tu_{e_3}}e^{tu_{e_4}}
+=I+t(u_{e_1}+u_{e_2}+u_{e_3}+u_{e_4})+O(t^2).
+\end{equation}
+The linearised curl is
+\begin{equation}\label{eq:linearised-curl}
+(du)_p:=u_{e_1}+u_{e_2}+u_{e_3}+u_{e_4}.
+\end{equation}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base,scale=.85]
+  \coordinate (a) at (0,0);
+  \coordinate (b) at (2,0);
+  \coordinate (c) at (2,1.5);
+  \coordinate (d) at (0,1.5);
+  \draw[ym/midarrow] (a)--(b) node[midway,below=3pt] {$e_1$};
+  \draw[ym/midarrow] (b)--(c) node[midway,right=3pt] {$e_2$};
+  \draw[ym/midarrow] (c)--(d) node[midway,above=3pt] {$e_3$};
+  \draw[ym/midarrow] (d)--(a) node[midway,left=3pt] {$e_4$};
+  \node at (1,.75) {$p$};
+\end{tikzpicture}
+\caption{The four links are oriented along the plaquette boundary.}
+\label{fig:linearised-plaquette}
+\end{figure}
+Since $q_G(W)=(2N)^{-1}\|W-I\|_{\mathrm{HS}}^2$,
+\begin{equation}\label{eq:identity-plaquette-energy}
+\begin{aligned}
+q_G(U_p)&=\frac1{2N}\|U_p-I\|_{\mathrm{HS}}^2\\
+&=\frac{t^2}{2N}\|(du)_p\|_{\mathrm{HS}}^2+O(t^3).
+\end{aligned}
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:identity-wilson-hessian}
+\left.\frac{\dd^2}{\dd t^2}W_\ell(U(\id,tu))\right|_{t=0}
+=\frac1N\sum_{p\in\mathcal P_\ell^+}\|(du)_p\|_{\mathrm{HS}}^2.
+\end{equation}
+The quadratic Wilson energy therefore measures the curl.
+
+\subsection{The blocking term}
+For the straight fine path $e_1,\ldots,e_L$ representing a coarse link $b$,
+define
+\begin{equation}\label{eq:linearised-straight-blocking}
+(Q_0u)_b:=\left.\frac{\dd}{\dd t}\right|_{t=0}
+Q(U(\id,tu))_b=\sum_{j=1}^Lu_{e_j}.
+\end{equation}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base,x=1.1cm]
+  \foreach \j in {0,1,2,3} {
+    \draw[ym/midarrow] (\j,0)--(\j+1,0);
+  }
+  \foreach \j in {0,1,2,3,4} \node[ym/dot] at (\j,0) {};
+  \node[above=4pt] at (.5,0) {$e_1$};
+  \node[above=4pt] at (1.5,0) {$e_2$};
+  \node[above=4pt] at (2.5,0) {$\cdots$};
+  \node[above=4pt] at (3.5,0) {$e_L$};
+  \node[below=5pt] at (0,0) {$Lx$};
+  \node[below=5pt] at (4,0) {$Lx+Le_i$};
+\end{tikzpicture}
+\caption{The straight path underlying $Q_0$, with $L$ fine links.}
+\label{fig:linearised-blocking-path}
+\end{figure}
+It follows that
+\begin{equation}\label{eq:identity-blocking-inverse}
+Q(U(\id,tu))_b^{-1}=I-t(Q_0u)_b+O(t^2),
+\end{equation}
+and hence
+\begin{equation}\label{eq:identity-blocking-energy}
+q_G\bigl(Q(U(\id,tu))_b^{-1}\bigr)
+=\frac{t^2}{2N}\|(Q_0u)_b\|_{\mathrm{HS}}^2+O(t^3).
+\end{equation}
+Both terms have zero first variation. Together they give
+\begin{equation}\label{eq:identity-hessian}
+\boxed{D_y^2\varphi(\id,0)[u,u]
+=\frac1N\left[\sum_p\|(du)_p\|_{\mathrm{HS}}^2
++a\sum_b\|(Q_0u)_b\|_{\mathrm{HS}}^2\right].}
+\end{equation}
+To obtain a lower bound, we use the following estimate.
+
+\begin{lemma}[Blocking Poincar\'e estimate]\label{lem:straight-blocking-poincare}
+Fix $L$ and $a>0$. For every link field $u$ that vanishes on the block
+trees, there is a constant $C_P=C_P(L,a)$, independent of the volume, such that
+\begin{equation}\label{eq:straight-blocking-poincare}
+\boxed{\sum_{e\in I}\|u_e\|_{\mathrm{HS}}^2
+\le C_P\left[\sum_p\|(du)_p\|_{\mathrm{HS}}^2
++a\sum_b\|(Q_0u)_b\|_{\mathrm{HS}}^2\right].}
+\end{equation}
+\end{lemma}
+\begin{proof}
+See Appendix~\ref{sec:blocking-poincare}.
+\end{proof}
+Combining \eqref{eq:identity-hessian} with
+Lemma~\ref{lem:straight-blocking-poincare} gives, in particular,
+\begin{equation}\label{eq:identity-hessian-lower-bound}
+\boxed{D_y^2\varphi(\id,0)[u,u]
+\ge\frac{\min(1,a)}{NC_P}\sum_{e\in I}\|u_e\|_{\mathrm{HS}}^2.}
+\end{equation}
+\begin{remark}
+The predictor $Q$ here is the single straight-path product. The main
+exposition treats a different predictor; compare
+\cite[Lemma~14.11 and Proposition~14.12, pp.~65--66]{Exposition}.
+The argument below is for the $Q_0$ in
+\eqref{eq:linearised-straight-blocking}. This calculation establishes
+coercivity at $(\id,0)$; estimates for a stationary graph away from the
+identity remain separate inputs.
+\end{remark}
+
 \appendix
 \section{Haar measure in exponential coordinates}\label{sec:haar-appendix}
 \begin{lemma}[Haar density]\label{lem:haar-density}
@@ -2098,6 +2233,319 @@ g_{ab}(x)=\langle A_XE_a,A_XE_b\rangle_\g,
 \end{equation}
 \end{proof}
 
+\section{The blocking Poincar\'e estimate}\label{sec:blocking-poincare}
+We prove Lemma~\ref{lem:straight-blocking-poincare} by reconstructing $u$
+from its curl and its straight coarse-link sums. The tree-path comparison
+is related to \cite[Sect.~B, Lemma~1, pp.~79--80]{Bal85g}; for related
+axial-gauge constructions, see also \cite{Dim15}. We give the calculation
+for the predictor used in these notes.
+
+\subsection{A continuous example}
+Consider a two-dimensional vector field $u=(u_1,u_2)$. For a gradient,
+the line integral depends only on the endpoints. For a general field,
+choose the path $\gamma$ from $(0,0)$ to $(x,0)$ and then to $(x,y)$, and set
+\begin{equation}\label{eq:continuous-coordinate-potential}
+\phi(x,y)=\int_\gamma\vec u\cdot\dd\vec r
+=\int_0^xu_1(s,0)\,\dd s+\int_0^yu_2(x,t)\,\dd t.
+\end{equation}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base]
+  \coordinate (o) at (0,0);
+  \coordinate (x) at (2.2,0);
+  \coordinate (xy) at (2.2,1.7);
+  \draw[ym/midarrow] (o)--(x);
+  \draw[ym/midarrow] (x)--(xy);
+  \foreach \p in {o,x,xy} \node[ym/dot] at (\p) {};
+  \node[below left=3pt] at (o) {$(0,0)$};
+  \node[below=4pt] at (x) {$(x,0)$};
+  \node[above right=3pt] at (xy) {$(x,y)$};
+  \node[right=6pt] at (2.2,.8) {$\gamma$};
+\end{tikzpicture}
+\caption{Integrating first in the horizontal direction and then vertically.}
+\label{fig:continuous-coordinate-path}
+\end{figure}
+Then
+\begin{equation}\label{eq:continuous-potential-y}
+\partial_y\phi(x,y)=u_2(x,y),
+\end{equation}
+whereas
+\begin{equation}\label{eq:continuous-potential-x}
+\begin{aligned}
+\partial_x\phi(x,y)
+&=u_1(x,0)+\int_0^y\partial_xu_2(x,t)\,\dd t\\
+&=u_1(x,y)+\int_0^y
+\bigl(\partial_xu_2(x,t)-\partial_yu_1(x,t)\bigr)\,\dd t.
+\end{aligned}
+\end{equation}
+Thus, with $\operatorname{curl}u:=\partial_xu_2-\partial_yu_1$,
+\begin{equation}\label{eq:continuous-curl-decomposition}
+u(x,y)=\nabla\phi(x,y)
+-\left(\int_0^y\operatorname{curl}u(x,t)\,\dd t,\ 0\right).
+\end{equation}
+The discrete argument retains this curl error.
+
+\subsection{The local reconstruction}
+\begin{proof}[Proof of Lemma~\ref{lem:straight-blocking-poincare}]
+\emph{Step 1: constructing $\phi$.}
+Choose a fixed integer $R\ge2L$ and a box
+\begin{equation}\label{eq:poincare-local-box}
+B:=r+\{0,1,\ldots,R\}^4,\qquad r\in\Z^4.
+\end{equation}
+For each tested fine link, choose this box to contain its endpoint blocks,
+their trees and the corresponding straight coarse-link path. The potential
+constructed here is local to this box. At a periodic boundary, use an integer
+lift of the same configuration. Plaquettes occurring more than once in that
+box are counted with multiplicity.
+Let $\mathcal P(B)$ denote its positively oriented plaquettes.
+For
+\begin{equation}\label{eq:poincare-site-coordinates}
+z=r+\sum_{j=1}^4n_je_j\in B,
+\end{equation}
+choose the coordinate-ordered path
+\begin{equation}\label{eq:poincare-coordinate-path}
+\begin{aligned}
+r&\longrightarrow r+n_1e_1\\
+&\longrightarrow r+n_1e_1+n_2e_2\\
+&\longrightarrow r+n_1e_1+n_2e_2+n_3e_3\\
+&\longrightarrow r+n_1e_1+n_2e_2+n_3e_3+n_4e_4=z.
+\end{aligned}
+\end{equation}
+Call it $\gamma_z$ and define its oriented path sum by
+\begin{equation}\label{eq:poincare-potential}
+\phi(z):=\int_{\gamma_z}u:=\sum_{e'\in\gamma_z}u_{e'}.
+\end{equation}
+For an oriented edge $e=(z,z+e_i)$ in $B$, put
+\begin{equation}\label{eq:poincare-curl-error}
+B_e:=u_e-\nabla_e\phi,\qquad
+\nabla_e\phi:=\phi(e_+)-\phi(e_-).
+\end{equation}
+The symbol $B_e$ denotes a link error, whereas $B$ denotes the box.
+By the definition of $\phi$,
+\begin{equation}\label{eq:poincare-path-difference}
+B_e=u_e+\sum_{e'\in\gamma_z}u_{e'}
+-\sum_{e'\in\gamma_{z+e_i}}u_{e'}.
+\end{equation}
+Commuting the extra $i$-step past the later coordinate segments fills the
+difference of these paths by at most $3R$ plaquettes. With their orientation
+signs included, this gives
+\begin{equation}\label{eq:poincare-plaquette-sum}
+B_e=\sum_{p\in\mathcal P(B)}C_p(du)_p,\qquad
+C_p\in\{-1,0\},\qquad
+\sum_{p\in\mathcal P(B)}|C_p|\le3R.
+\end{equation}
+Here the coefficients refer to the chosen edge $e$. Consequently,
+\begin{equation}\label{eq:poincare-local-curl-bound}
+\boxed{\|B_e\|_{\mathrm{HS}}
+\le3R\sum_{p\in\mathcal P(B)}\|(du)_p\|_{\mathrm{HS}}.}
+\end{equation}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base,scale=.75]
+  \fill[blue!8] (3,0) rectangle (4,3);
+  \draw[ym/grid] (0,0) grid (4,4);
+  \draw[ym/midarrow,line width=1.15pt] (0,0)--(3,0);
+  \draw[ym/midarrow,line width=1.15pt] (3,0)--(3,3);
+  \draw[ym/midarrow,blue!70!black,dashed,line width=1.1pt] (3,0)--(4,0);
+  \draw[ym/midarrow,blue!70!black,dashed,line width=1.1pt] (4,0)--(4,3);
+  \draw[ym/arrow,red!75!black,line width=1.1pt] (3,3)--(4,3)
+    node[midway,above=5pt] {$e$};
+  \node[ym/dot] at (0,0) {};
+  \node[below left=3pt] at (0,0) {$r$};
+  \node[ym/dot] at (3,3) {};
+  \node[above left=3pt] at (3,3) {$z$};
+  \node[ym/dot] at (4,3) {};
+  \node[above right=3pt] at (4,3) {$z+e_i$};
+  \node[left=5pt] at (3,1.7) {$\gamma_z$};
+  \node[right=5pt,blue!70!black] at (4,1.5) {$\gamma_{z+e_i}$};
+\end{tikzpicture}
+\caption{A two-dimensional slice of the path comparison. The two coordinate
+paths share the initial horizontal segment. Together with $e$, their
+difference bounds the shaded plaquette strip.}
+\label{fig:poincare-path-comparison}
+\end{figure}
+
+\emph{Step 2: using the tree gauge to control $\phi$.}
+The decomposition is
+\begin{equation}\label{eq:poincare-gradient-decomposition}
+u_e=\phi(e_+)-\phi(e_-)+B_e.
+\end{equation}
+On a tree link $e\in T$, $u_e=0$, so
+\begin{equation}\label{eq:poincare-tree-gradient}
+\phi(e_+)-\phi(e_-)=-B_e.
+\end{equation}
+Let $\tau_{Lx,z}$ be the unique tree path from the block root $Lx$ to a site
+$z$ in that block. Write $\sigma_e=1$ for a forward traversal and
+$\sigma_e=-1$ for a backward traversal. Then
+\begin{equation}\label{eq:poincare-tree-potential}
+\phi(z)-\phi(Lx)=-\sum_{e\in\tau_{Lx,z}}\sigma_eB_e,
+\qquad |\tau_{Lx,z}|\le L^4-1.
+\end{equation}
+Thus
+\begin{equation}\label{eq:poincare-tree-bound}
+\begin{aligned}
+\|\phi(z)-\phi(Lx)\|_{\mathrm{HS}}
+&\le\sum_{e\in\tau_{Lx,z}}\|B_e\|_{\mathrm{HS}}\\
+&\le3R(L^4-1)\sum_{p\in\mathcal P(B)}\|(du)_p\|_{\mathrm{HS}}.
+\end{aligned}
+\end{equation}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base,scale=.85]
+  \draw[ym/grid] (0,0) grid (3,3);
+  \foreach \x in {0,1,2,3} \draw[black!55,line width=.85pt] (\x,0)--(\x,3);
+  \draw[black!55,line width=.85pt] (0,0)--(3,0);
+  \draw[ym/midarrow,line width=1.4pt] (0,0)--(3,0);
+  \draw[ym/midarrow,line width=1.4pt] (3,0)--(3,1);
+  \draw[ym/arrow,red!75!black,line width=1.4pt] (3,1)--(3,2)
+    node[midway,right=6pt] {$e\in T$};
+  \node[ym/dot] at (0,0) {};
+  \node[below left=3pt] at (0,0) {$Lx$};
+  \node[ym/dot] at (3,2) {};
+  \node[above right=3pt] at (3,2) {$z$};
+  \node[below=5pt] at (1.5,0) {$\tau_{Lx,z}$};
+\end{tikzpicture}
+\caption{A block tree in a two-dimensional illustration. The heavier path
+joins $Lx$ to $z$; the red edge lies on that tree path.}
+\label{fig:poincare-tree-path}
+\end{figure}
+
+\emph{Step 3: controlling differences between adjacent block roots.}
+For each coarse site $x$ whose block is in the box, define
+\begin{equation}\label{eq:poincare-block-constant}
+C_x:=\phi(Lx),\qquad C(z):=C_x\quad
+\text{for }z\in Lx+\{0,\ldots,L-1\}^4.
+\end{equation}
+Set
+\begin{equation}\label{eq:poincare-new-error}
+\begin{aligned}
+\widetilde B_e&:=u_e-[C(e_+)-C(e_-)]\\
+&=B_e+[\phi(e_+)-C(e_+)]-[\phi(e_-)-C(e_-)].
+\end{aligned}
+\end{equation}
+The first two steps give
+\begin{equation}\label{eq:poincare-new-error-bound}
+\|\widetilde B_e\|_{\mathrm{HS}}
+\le3R[1+2(L^4-1)]\sum_{p\in\mathcal P(B)}\|(du)_p\|_{\mathrm{HS}}.
+\end{equation}
+Call the coefficient $C_B:=3R[1+2(L^4-1)]$. We have
+\begin{equation}\label{eq:poincare-block-decomposition}
+u_e=\widetilde B_e+[C(e_+)-C(e_-)].
+\end{equation}
+For a fine link crossing from block $x_1$ to the adjacent block $x_2$,
+\begin{equation}\label{eq:poincare-root-difference}
+C(e_+)-C(e_-)=C_{x_2}-C_{x_1}=\phi(Lx_2)-\phi(Lx_1).
+\end{equation}
+Let $b$ be the corresponding oriented coarse link and $\gamma_b$ its
+straight fine path. Summing \eqref{eq:poincare-block-decomposition} along
+that path telescopes the block constants:
+\begin{equation}\label{eq:poincare-coarse-sum}
+(Q_0u)_b=\sum_{e'\in\gamma_b}u_{e'}
+=(C_{x_2}-C_{x_1})+(Q_0\widetilde B)_b.
+\end{equation}
+In particular, the potential difference alone need not equal the path
+sum of $u$; the error term is retained. It follows that
+\begin{equation}\label{eq:poincare-root-bound}
+\|C(e_+)-C(e_-)\|_{\mathrm{HS}}
+\le\|(Q_0u)_b\|_{\mathrm{HS}}+\|(Q_0\widetilde B)_b\|_{\mathrm{HS}}.
+\end{equation}
+The path has $L$ fine links, so
+\begin{equation}\label{eq:poincare-coarse-error-bound}
+\begin{aligned}
+\|(Q_0\widetilde B)_b\|_{\mathrm{HS}}
+&\le\sum_{j=1}^L\|\widetilde B_{e_j}\|_{\mathrm{HS}}\\
+&\le LC_B\sum_{p\in\mathcal P(B)}\|(du)_p\|_{\mathrm{HS}}.
+\end{aligned}
+\end{equation}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base,x=.8cm,y=.7cm]
+  \fill[black!3] (-.5,-.5) rectangle (3.5,3.5);
+  \fill[blue!4] (3.5,-.5) rectangle (7.5,3.5);
+  \foreach \x in {0,...,7} \draw[ym/grid] (\x,0)--(\x,3);
+  \foreach \y in {0,...,3} \draw[ym/grid] (0,\y)--(7,\y);
+  \draw[black!60,dashed] (3.5,-.5)--(3.5,3.5);
+  \node[above=5pt] at (1.5,3.5) {block $x_1$};
+  \node[above=5pt] at (5.5,3.5) {block $x_2$};
+  \draw[ym/arrow,red!75!black,line width=1.2pt] (3,2)--(4,2)
+    node[midway,below=5pt] {$e$};
+  \node[ym/dot] at (3,2) {};
+  \node[above left=3pt] at (3,2) {$e_-$};
+  \node[ym/dot] at (4,2) {};
+  \node[above right=3pt] at (4,2) {$e_+$};
+  \foreach \j in {0,1,2,3} {
+    \draw[ym/midarrow,blue!70!black,line width=1.1pt] (\j,0)--(\j+1,0);
+  }
+  \node[ym/dot] at (0,0) {};
+  \node[ym/dot] at (4,0) {};
+  \node[below=5pt] at (0,0) {$Lx_1$};
+  \node[below=5pt] at (4,0) {$Lx_2$};
+  \node[below=5pt,blue!70!black] at (2,0) {$\gamma_b$};
+  \draw[ym/arrow] (0,-1.15)--(4,-1.15) node[midway,below=3pt] {$b$};
+\end{tikzpicture}
+\caption{Adjacent blocks, illustrated with $L=4$. The fine edge $e$ crosses
+the dashed block interface. The path $\gamma_b$ joins the two block roots
+in $L$ fine steps and represents the coarse link $b$.}
+\label{fig:poincare-crossing-link}
+\end{figure}
+Combining the bounds yields, for a crossing link,
+\begin{equation}\label{eq:poincare-pointwise-link-bound}
+\boxed{\|u_e\|_{\mathrm{HS}}
+\le\|(Q_0u)_b\|_{\mathrm{HS}}
++C(L,R)\sum_{p\in\mathcal P(B)}\|(du)_p\|_{\mathrm{HS}}.}
+\end{equation}
+For an edge inside one block, $C(e_+)-C(e_-)=0$, and the same bound
+holds without its coarse-link term.
+
+\emph{Step 4: summing the local estimates.}
+Translate the fixed box with each block $x$, denote it by $B_x$, and set
+\begin{equation}\label{eq:poincare-translated-plaquettes}
+\mathcal P_x:=\mathcal P(B_x).
+\end{equation}
+Cauchy--Schwarz gives
+\begin{equation}\label{eq:poincare-squared-link-bound}
+\|u_e\|_{\mathrm{HS}}^2\lesssim_{L,R}
+\|(Q_0u)_b\|_{\mathrm{HS}}^2
++\#\mathcal P_x\sum_{p\in\mathcal P_x}\|(du)_p\|_{\mathrm{HS}}^2,
+\end{equation}
+with the first term omitted for internal links. There are at most $4L^4$
+fine links assigned to a block and at most $L^3$ crossing fine links
+associated with a fixed coarse link. Hence
+\begin{equation}\label{eq:poincare-summed-local-bound}
+\begin{aligned}
+\sum_{e\in I}\|u_e\|_{\mathrm{HS}}^2\lesssim_{L,R}\;&
+\sum_b\|(Q_0u)_b\|_{\mathrm{HS}}^2\\
+&+\sup_x(\#\mathcal P_x)
+\sum_x\sum_{p\in\mathcal P_x}\|(du)_p\|_{\mathrm{HS}}^2.
+\end{aligned}
+\end{equation}
+Interchanging the two finite sums gives
+\begin{equation}\label{eq:poincare-overlap-identity}
+\sum_x\sum_{p\in\mathcal P_x}\|(du)_p\|_{\mathrm{HS}}^2
+=\sum_p\#\{x:p\in\mathcal P_x\}\|(du)_p\|_{\mathrm{HS}}^2,
+\end{equation}
+where the count includes any multiplicities from the integer lift.
+Both counts are bounded by the fixed geometry:
+\begin{equation}\label{eq:poincare-overlap-bounds}
+\#\mathcal P_x\lesssim_{L,R}1,\qquad
+\sup_p\#\{x:p\in\mathcal P_x\}\lesssim_{L,R}1.
+\end{equation}
+Therefore
+\begin{equation}\label{eq:poincare-unweighted-conclusion}
+\boxed{\sum_{e\in I}\|u_e\|_{\mathrm{HS}}^2
+\lesssim_{L,R}\sum_b\|(Q_0u)_b\|_{\mathrm{HS}}^2
++\sum_p\|(du)_p\|_{\mathrm{HS}}^2.}
+\end{equation}
+Finally, since $a>0$ is fixed,
+\begin{equation}\label{eq:poincare-weighted-conclusion}
+\sum_p\|(du)_p\|_{\mathrm{HS}}^2+\sum_b\|(Q_0u)_b\|_{\mathrm{HS}}^2
+\le\max(1,a^{-1})\left[
+\sum_p\|(du)_p\|_{\mathrm{HS}}^2+a\sum_b\|(Q_0u)_b\|_{\mathrm{HS}}^2\right].
+\end{equation}
+Absorb this fixed factor into $C_P$. The resulting constant is independent
+of the number of blocks, as required.
+\end{proof}
+
 % Embedded bibliography, following the amsalphaabbr style of the reference template.
 \begin{thebibliography}{Ba{\l}87}
 \bibitem[Ba{\l}87]{Bal87}
@@ -2107,10 +2555,20 @@ I. Generation of effective actions in a small field approximation
 and a coupling constant renormalization in four dimensions},
 Comm. Math. Phys. \textbf{109} (1987), 249--301.
 \href{https://doi.org/10.1007/BF01215223}{doi:10.1007/BF01215223}.
+\bibitem[Ba{\l}85]{Bal85g}
+T.~Ba{\l}aban,
+\emph{Spaces of regular gauge field configurations on a lattice
+and gauge fixing conditions},
+Comm. Math. Phys. \textbf{99} (1985), 75--102.
+\href{https://doi.org/10.1007/BF01466594}{doi:10.1007/BF01466594}.
+\bibitem[Dim15]{Dim15}
+J.~Dimock,
+\emph{Covariant Axial Gauge},
+\href{https://arxiv.org/abs/1410.2798v3}{arXiv:1410.2798v3}.
 \bibitem[Main]{Exposition}
 \emph{Reading Notes on Four-Dimensional Yang--Mills Theory},
 AI-generated working exposition, maintained by Zexi He, publication copy of
-15 November 2026, 495 pages, Sections~11--14.
+15 November 2026, 551 pages, Sections~11--14.
 \href{../4DYM_reading_notes.pdf}{Companion exposition (PDF)}; the section, equation
 and page locators in these notes refer to this version.
 \end{thebibliography}
