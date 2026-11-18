@@ -1,7 +1,8 @@
 % !TeX program = xelatex
-% English publication copy adapted from the 53-page handwritten source.
-% Added source pp. 41--43 and 48--52; the Haar appendix is on source pp. 45--47.
-% Blank source pp. 44 and 53 are omitted.
+% English publication copy adapted from the corrected 64-page handwritten source.
+% Added source pp. 43--53 and Appendix 3 on p. 63; the Haar appendix is on pp. 55--57.
+% Blank source pp. 54 and 64 are omitted.
+% Publication corrections keep both block trees internal and close the crossing loop through the second root.
 % Approved domain correction on source p. 33: enlargement of the Haar domain gives an inequality.
 % Approved local amendment: define Omega on source p. 16, retain the domain
 % in the sector integral and use {z : m+gz in Omega} after the change of variables.
@@ -91,7 +92,7 @@
 \date{}
 \AddToHook{cmd/@setauthors/after}{%
   \begingroup\centering\normalfont\footnotesize
-  Personal study notes --- 16 November 2026\par\endgroup}
+  Personal study notes --- 18 November 2026\par\endgroup}
 \begin{document}
 
 \maketitle
@@ -105,8 +106,11 @@ README. This installment covers the Wilson measure, exact blocking, tree gauge,
 exponential coordinates, the central Gaussian estimate, conditional tail
 bounds and a summary of exact sector reassembly. This installment also
 calculates the Hessian at the identity and proves a blocking Poincar\'e
-estimate for the straight-path predictor. The remaining model-dependent
-inputs are stated explicitly; the continuum
+estimate for the straight-path predictor. It then chooses reference links,
+controls the Hessian near the identity, constructs the local stationary
+point and proves geometric chart entry. Block trees remain internal to
+their blocks. The remaining model-dependent inputs are stated explicitly;
+the continuum
 construction is not established here. Corrections and missing references are welcome.
 \end{list}
 
@@ -682,7 +686,9 @@ In each coarse block $Lx+\{0,\ldots,L-1\}^4$, choose a tree such that
 \item its vertices are exactly $Lx+\{0,\ldots,L-1\}^4$;
 \item its root is $Lx$.
 \end{enumerate}
-Any such tree suffices for this identity; Figure~\ref{fig:block-tree} shows a two-dimensional example.
+Every tree edge lies inside the integer block before periodic identification;
+no crossing link belongs to a block tree. Any such internal spanning tree
+suffices for this identity; Figure~\ref{fig:block-tree} shows a two-dimensional example.
 Let $T$ denote the union of their edges, represented with the positive lattice orientation.
 
 \begin{definition}[Tree gauge] $U$ is in tree gauge if $U|_T=\id$.
@@ -1421,9 +1427,10 @@ d_G(V_eQ(U)_e^{-1})\le\delta_*\quad\text{for every coarse link }e
 \end{gathered}
 \quad\Longrightarrow\quad\|y\|_\infty\le r_y.
 \end{equation}
-The model-dependent chart-entry result is
-\cite[Corollary~14.10, p.~64]{Exposition}. Its application here, including
-the choice of $R_e(V)$, remains an input.
+For the straight-path reference links, Lemma~\ref{lem:straight-chart-entry}
+below proves this geometric input. Compare the chart-entry result for the
+predictor of the main exposition in
+\cite[Corollary~14.10, p.~64]{Exposition}.
 
 If $U\in G_h$ and $\|y\|_\infty>r_y$, then some coarse link satisfies
 \begin{equation}\label{eq:large-mismatch-witness}
@@ -1978,8 +1985,11 @@ The exact identities are established, and the central and plaquette-small
 tail estimates follow from the stated inputs. The next model-dependent
 tasks are to choose $R_e(V)$, construct and control $m,H$, verify the
 geometric and derivative inputs, and estimate $T_D^{\mathrm{bad}}$.
-The plaquette-small bound above concerns the all-active sector; it does
-not supply the missing estimates for arbitrary frozen variables.
+Sections~\ref{sec:straight-hessian-stability}--\ref{sec:straight-chart-entry}
+below verify the near-identity stationary and geometric inputs for the
+straight-path predictor. The plaquette-small bound above concerns the
+all-active sector; it does not supply the missing estimates for arbitrary
+frozen variables.
 
 Finally, the displayed global dimension is
 $d=|I|\dim_\R\g$, which grows with the physical lattice volume.
@@ -2118,8 +2128,711 @@ exposition treats a different predictor; compare
 \cite[Lemma~14.11 and Proposition~14.12, pp.~65--66]{Exposition}.
 The argument below is for the $Q_0$ in
 \eqref{eq:linearised-straight-blocking}. This calculation establishes
-coercivity at $(\id,0)$; estimates for a stationary graph away from the
-identity remain separate inputs.
+coercivity at $(\id,0)$. The next two sections establish the common
+small-chart estimates and construct the stationary point away from the
+identity for the reference links chosen there.
+\end{remark}
+
+\section{Reference links and stability of the Hessian}\label{sec:straight-hessian-stability}
+We continue in the all-active sector. Write $B_v:=Lv+\{0,\ldots,L-1\}^4$
+for the block rooted at the coarse site $v$. Each block tree uses only
+links inside this integer block, before periodic identification.
+At a periodic boundary, internal and crossing links are classified in
+these block lifts; wrapping across a block boundary is a crossing link.
+
+\subsection{Choosing the reference links}
+For a positively oriented free fine link $e$, choose
+\begin{equation}\label{eq:straight-reference-links}
+R_e(V):=\begin{cases}
+1,&e\text{ has both endpoints in }B_v,\\
+V_b,&e\text{ crosses from }B_v\text{ to }B_{v+e_i},\quad b=(v,i).
+\end{cases}
+\end{equation}
+Extend the reference configuration by $R_e(V)=1$ on tree links.
+In particular $R_e(\id)=\id$. The straight path $\gamma_b$ from $Lv$ to
+$L(v+e_i)$ has $L-1$ internal links and one final crossing link. Therefore
+\begin{equation}\label{eq:straight-reference-predictor}
+Q(R(V))_b=1\cdots1\,V_b=V_b.
+\end{equation}
+The crossing link is not in either block tree.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base,x=1cm,y=.75cm]
+  \fill[black!3] (-.35,-.4) rectangle (3.5,1.2);
+  \fill[blue!4] (3.5,-.4) rectangle (4.6,1.2);
+  \draw[black!50,dashed] (3.5,-.4)--(3.5,1.2);
+  \foreach \j in {0,...,2} {
+    \draw[ym/midarrow] (\j,0)--(\j+1,0) node[midway,above=5pt] {$1$};
+  }
+  \draw[ym/midarrow,red!75!black,line width=1.1pt] (3,0)--(4,0)
+    node[midway,above=5pt] {$V_b$};
+  \foreach \j in {0,...,4} \node[ym/dot] at (\j,0) {};
+  \node[below=5pt] at (0,0) {$Lv$};
+  \node[below right=5pt] at (4,0) {$L(v+e_i)$};
+  \node[above=5pt] at (1.5,1.2) {$B_v$};
+  \node[above=5pt] at (4,1.2) {$B_{v+e_i}$};
+\end{tikzpicture}
+\caption{Reference values along a straight coarse-link path, illustrated
+with $L=4$. Its final fine link crosses the block interface and carries
+$V_b$; all preceding fine links are internal and carry $1$.}
+\label{fig:straight-reference-values}
+\end{figure}
+
+For the perturbation calculation, put $V(x)_b=e^{x_b}$ and
+\begin{equation}\label{eq:near-identity-link-coordinates}
+U(V(x),y)_e=\begin{cases}
+1,&e\in T,\\
+e^{y_e}R_e(V(x)),&e\in I.
+\end{cases}
+\end{equation}
+Here $x$ is an array of coarse-link coordinates. We use
+\begin{equation}\label{eq:link-array-norms}
+\|x\|_\infty:=\max_b\|x_b\|_{\mathrm{HS}},\qquad
+\|y\|_\infty:=\max_{e\in I}\|y_e\|_{\mathrm{HS}},\qquad
+\|u\|_2^2:=\sum_{e\in I}\|u_e\|_{\mathrm{HS}}^2.
+\end{equation}
+The norm $|\cdot|_\g$ used earlier is this Hilbert--Schmidt norm.
+Let
+\begin{equation}\label{eq:flat-hessian-notation}
+H_0:=D_y^2\varphi(\id,0),\qquad
+\eta_0:=\frac{\min(1,a)}{NC_P}>0.
+\end{equation}
+Then \eqref{eq:identity-hessian-lower-bound} says
+$H_0[u,u]\ge\eta_0\|u\|_2^2$. We compare this quadratic form with the
+Hessian at $(V(x),y)$ in a common neighbourhood
+\begin{equation}\label{eq:common-near-identity-radius}
+\max(\|x\|_\infty,\|y\|_\infty)\le r_0,
+\end{equation}
+where $r_0>0$ is fixed below the exponential-chart radius.
+
+\subsection{The plaquette contribution}
+Set
+\begin{equation}\label{eq:local-plaquette-function}
+f_p(x,y):=q_G\bigl(U(V(x),y)_p\bigr).
+\end{equation}
+The Wilson contribution is $\varphi^{\mathrm{Wilson}}(V(x),y):=\sum_p f_p(x,y)$.
+Along the segment $(tx,ty)$, the fundamental theorem of calculus gives
+\begin{equation}\label{eq:local-hessian-segment-identity}
+\begin{aligned}
+&D_y^2f_p(x,y)[u,u]-D_y^2f_p(0,0)[u,u]\\
+&\quad=\int_0^1D_xD_y^2f_p(tx,ty)[x,u,u]\,\dd t
++\int_0^1D_y^3f_p(tx,ty)[y,u,u]\,\dd t.
+\end{aligned}
+\end{equation}
+Only the four fine links in $\partial p$ and their reference coarse links
+occur. For a backward traversal, the factor is
+\begin{equation}\label{eq:reversed-reference-factor}
+\bigl(e^{y_e}R_e(V(x))\bigr)^{-1}
+=R_e(V(x))^{-1}e^{-y_e}.
+\end{equation}
+The order in this identity is retained when differentiating; in general
+it cannot be replaced by $e^{-y_e}R_e(V(x))^{-1}$.
+
+Thus $U_p$ is the ordered product of four factors of the form
+$e^{y_e}R_e(V(x))$ or $R_e(V(x))^{-1}e^{-y_e}$, and
+\begin{equation}\label{eq:plaquette-trace-function}
+f_p(x,y)=\frac1{2N}\|I-U_p\|_{\mathrm{HS}}^2
+=1-\frac1N\operatorname{Re}\tr U_p.
+\end{equation}
+A plaquette can cross block interfaces in both of its coordinate
+directions. We therefore allow up to four reference coarse-link reads,
+rather than assuming that only two boundary factors are nontrivial.
+
+Appendix~\ref{sec:matrix-exponential-derivatives} proves, for $k=1,2,3$,
+\begin{equation}\label{eq:local-exponential-derivative-input}
+\|D^k\exp_Y[Z_1,\ldots,Z_k]\|_{\mathrm{HS}}
+\le e^{\|Y\|_{\mathrm{HS}}}\prod_{j=1}^k\|Z_j\|_{\mathrm{HS}}.
+\end{equation}
+Apply this estimate and the product rule to the four-factor word.
+For one coarse link $b$ and two fine links $e,e'$, this gives
+\begin{equation}\label{eq:plaquette-third-partial-bound}
+\bigl|D_{x_b}D_{y_e}D_{y_{e'}}f_p(x,y)[x_b,u_e,u_{e'}]\bigr|
+\le C\|x_b\|_{\mathrm{HS}}\|u_e\|_{\mathrm{HS}}\|u_{e'}\|_{\mathrm{HS}}.
+\end{equation}
+The constant depends on $N,r_0$ and the fixed local word, not on the
+volume. Summing over the finitely many reads and using
+$(\sum_{e\in\partial p}\|u_e\|_{\mathrm{HS}})^2
+\le4\sum_{e\in\partial p}\|u_e\|_{\mathrm{HS}}^2$, we obtain
+\begin{equation}\label{eq:plaquette-mixed-third-bound}
+|D_xD_y^2f_p(x,y)[x,u,u]|
+\le C\|x\|_\infty\sum_{e\in\partial p}\|u_e\|_{\mathrm{HS}}^2.
+\end{equation}
+The same calculation with a fine-coordinate direction in place of $x$
+gives
+\begin{equation}\label{eq:plaquette-fine-third-bound}
+|D_y^3f_p(x,y)[y,u,u]|
+\le C\|y\|_\infty\sum_{e\in\partial p}\|u_e\|_{\mathrm{HS}}^2.
+\end{equation}
+Substitution in \eqref{eq:local-hessian-segment-identity} yields
+\begin{equation}\label{eq:local-plaquette-hessian-stability}
+\begin{aligned}
+&|D_y^2f_p(x,y)[u,u]-D_y^2f_p(0,0)[u,u]|\\
+&\qquad\le C\max(\|x\|_\infty,\|y\|_\infty)
+\sum_{e\in\partial p}\|u_e\|_{\mathrm{HS}}^2.
+\end{aligned}
+\end{equation}
+Each fine link occurs in six positively oriented plaquette boundaries
+in four dimensions, counting multiplicities. Summing over $p$ therefore
+gives the Wilson contribution
+\begin{equation}\label{eq:wilson-hessian-stability}
+\begin{aligned}
+&|D_y^2\varphi^{\mathrm{Wilson}}(V(x),y)[u,u]
+-D_y^2\varphi^{\mathrm{Wilson}}(\id,0)[u,u]|\\
+&\qquad\le C\max(\|x\|_\infty,\|y\|_\infty)\|u\|_2^2.
+\end{aligned}
+\end{equation}
+
+\subsection{The blocking contribution}
+For the straight path $\gamma_b=(e_1,\ldots,e_L)$,
+\begin{equation}\label{eq:exact-straight-path-word}
+\begin{aligned}
+Q(U)_b&=U_{e_1}\cdots U_{e_L}\\
+&=e^{y_{e_1}}\cdots e^{y_{e_{L-1}}}e^{y_{e_L}}V_b.
+\end{aligned}
+\end{equation}
+Here $y_e=0$ on tree links. Hence the coarse variable cancels exactly:
+\begin{equation}\label{eq:exact-noise-cancellation}
+V_bQ(U)_b^{-1}=e^{-y_{e_L}}\cdots e^{-y_{e_1}}.
+\end{equation}
+In particular,
+\begin{equation}\label{eq:blocking-action-independent-of-x}
+\varphi^{\mathrm{weight}}(V(x),y)
+=a\sum_bq_G\bigl(e^{-y_{e_L}}\cdots e^{-y_{e_1}}\bigr)
+\end{equation}
+does not depend on $x$. For each of these words, the same product-rule
+calculation gives a third-derivative bound by
+$C_L\|y\|_\infty\sum_{e\in\gamma_b}\|u_e\|_{\mathrm{HS}}^2$.
+A fixed positive fine link belongs to at most one such straight path.
+After integration along $ty$ and summation over $b$,
+\begin{equation}\label{eq:weight-hessian-stability}
+\begin{aligned}
+&|D_y^2\varphi^{\mathrm{weight}}(V(x),y)[u,u]
+-D_y^2\varphi^{\mathrm{weight}}(\id,0)[u,u]|\\
+&\qquad\le C\|y\|_\infty\|u\|_2^2.
+\end{aligned}
+\end{equation}
+Combining the two contributions proves
+\begin{equation}\label{eq:full-hessian-quadratic-stability}
+\boxed{\bigl|D_y^2\varphi(V(x),y)[u,u]-H_0[u,u]\bigr|
+\le C\max(\|x\|_\infty,\|y\|_\infty)\|u\|_2^2.}
+\end{equation}
+All constants depend only on the fixed group data, $L,a,r_0$.
+Choose common radii $r_x,r_y\le r_0$ with
+\begin{equation}\label{eq:positive-hessian-radii}
+C\max(r_x,r_y)\le\frac{\eta_0}{2}.
+\end{equation}
+Then
+\begin{equation}\label{eq:common-positive-hessian}
+\boxed{D_y^2\varphi(V(x),y)[u,u]
+\ge\frac{\eta_0}{2}\|u\|_2^2,\qquad
+\|x\|_\infty\le r_x,\quad\|y\|_\infty\le r_y.}
+\end{equation}
+This is a positive lower bound on the quadratic form itself.
+
+\section{A stationary point in a common small chart}\label{sec:straight-stationary-point}
+We identify a differential on $\g^I$ with its gradient using the inner
+product $\sum_{e\in I}\langle u_e,w_e\rangle_{\mathrm{HS}}$.
+Accordingly, a Hessian is a self-adjoint matrix of maps $\g\to\g$.
+For such a map, $\|\cdot\|_{\mathrm{op}}$ is the operator norm induced
+by the Hilbert--Schmidt norm.
+
+\subsection{The flat Hessian and its row sums}
+The flat quadratic form is
+\begin{equation}\label{eq:flat-hessian-recalled}
+H_0[u,u]=\frac1N\left[
+\sum_p\|(du)_p\|_{\mathrm{HS}}^2
++a\sum_b\left\|\sum_{e\in\gamma_b}u_e\right\|_{\mathrm{HS}}^2\right].
+\end{equation}
+Define the oriented incidence coefficients $\sigma_{pe}$ by
+\begin{equation}\label{eq:plaquette-incidence-coefficients}
+(du)_p=\sum_{e\in I}\sigma_{pe}u_e.
+\end{equation}
+A positive traversal contributes $1$, a negative traversal $-1$,
+and absent links contribute zero; repeated traversals are combined.
+Expanding the two squares yields
+\begin{equation}\label{eq:flat-hessian-component-expansion}
+H_0[u,u]=\frac1N\sum_{e,e'\in I}
+\left[\sum_p\sigma_{pe}\sigma_{pe'}
++a\sum_{b:\,e,e'\in\gamma_b}1\right]
+\langle u_e,u_{e'}\rangle_{\mathrm{HS}}.
+\end{equation}
+Thus
+\begin{equation}\label{eq:flat-hessian-matrix-blocks}
+\boxed{(H_0)_{ee'}=\frac1N\left[
+\sum_p\sigma_{pe}\sigma_{pe'}
++a\sum_{b:\,e,e'\in\gamma_b}1\right]\operatorname{Id}_\g.}
+\end{equation}
+The block is zero unless $e,e'$ lie in one plaquette or one straight
+path. Taking absolute values before summing gives
+\begin{equation}\label{eq:flat-hessian-absolute-row-sum}
+\begin{aligned}
+\sum_{e'\in I}\|(H_0)_{ee'}\|_{\mathrm{op}}
+&\le\frac1N\left[
+\sum_{p:\,e\in\partial p}\sum_{e'\in I\cap\partial p}
+|\sigma_{pe}\sigma_{pe'}|
++a\sum_{b:\,e\in\gamma_b}\#(I\cap\gamma_b)\right]\\
+&\le\frac{24+aL}{N}\le K_0,
+\end{aligned}
+\end{equation}
+where we may take $K_0:=1+(24+aL)/N$. The column bound is the same
+by symmetry. In particular,
+\begin{equation}\label{eq:flat-hessian-upper-bound}
+\begin{aligned}
+H_0[u,u]
+&\le\sum_{e,e'}\|(H_0)_{ee'}\|_{\mathrm{op}}
+\|u_e\|_{\mathrm{HS}}\|u_{e'}\|_{\mathrm{HS}}\\
+&\le\frac12\sum_{e,e'}\|(H_0)_{ee'}\|_{\mathrm{op}}
+\bigl(\|u_e\|_{\mathrm{HS}}^2+\|u_{e'}\|_{\mathrm{HS}}^2\bigr)
+\le K_0\|u\|_2^2.
+\end{aligned}
+\end{equation}
+Together with \eqref{eq:flat-hessian-notation}, this gives
+$\eta_0\operatorname{Id}\le H_0\le K_0\operatorname{Id}$ uniformly in the volume.
+
+\subsection{A maximum-norm bound on the inverse}
+The spectral lower bound alone only gives
+\begin{equation}\label{eq:dimension-dependent-inverse-bound}
+\|H_0^{-1}w\|_\infty\le\|H_0^{-1}w\|_2
+\le\eta_0^{-1}\|w\|_2
+\le\eta_0^{-1}\sqrt{\#I}\,\|w\|_\infty.
+\end{equation}
+We remove this volume factor using locality. Assign each positive fine
+link to the block containing its initial endpoint. If $e,e'$ are
+assigned to coarse sites $v,v'$, define
+\begin{equation}\label{eq:coarse-link-distance}
+d(e,e'):=\min_{k\in(\ell/L)\Z^4}\|v-v'+k\|_\infty.
+\end{equation}
+Here the norm on the right is the maximum of the four coordinate
+absolute values. Thus $d$ uses the maximum cyclic coordinate distance
+on the coarse torus. The local terms in \eqref{eq:flat-hessian-matrix-blocks}
+have range one for this distance, and
+\begin{equation}\label{eq:flat-hessian-range-and-growth}
+(H_0)_{ee'}=0\quad\text{if }d(e,e')>1,\qquad
+\#\{e':d(e,e')\le n\}\le4L^4(2n+1)^4.
+\end{equation}
+Let
+\begin{equation}\label{eq:inverse-neumann-contraction}
+A:=\operatorname{Id}-\frac{H_0}{2K_0},\qquad
+q:=1-\frac{\eta_0}{2K_0}\in[\tfrac12,1).
+\end{equation}
+Then
+\begin{equation}\label{eq:inverse-neumann-spectrum}
+\tfrac12\operatorname{Id}\le A\le q\operatorname{Id},\qquad
+\|A^n\|_{2\to2}\le q^n,
+\end{equation}
+and the Neumann series is
+\begin{equation}\label{eq:inverse-neumann-series}
+H_0^{-1}=\frac1{2K_0}(\operatorname{Id}-A)^{-1}
+=\frac1{2K_0}\sum_{n=0}^\infty A^n.
+\end{equation}
+Finite propagation gives
+\begin{equation}\label{eq:inverse-neumann-propagation}
+(A^n)_{ee'}=0\quad\text{if }d(e,e')>n,\qquad
+\|(A^n)_{ee'}\|_{\mathrm{op}}\le q^n.
+\end{equation}
+Therefore
+\begin{equation}\label{eq:inverse-neumann-row-sum}
+\sup_e\sum_{e'}\|(A^n)_{ee'}\|_{\mathrm{op}}
+\le4L^4(2n+1)^4q^n.
+\end{equation}
+The polynomial factor is summable against $q^n$, so
+\begin{equation}\label{eq:uniform-inverse-row-sum}
+\sup_e\sum_{e'}\|(H_0^{-1})_{ee'}\|_{\mathrm{op}}
+\le\frac{4L^4}{2K_0}\sum_{n=0}^\infty(2n+1)^4q^n=:M<\infty.
+\end{equation}
+Finally,
+\begin{equation}\label{eq:uniform-maximum-inverse-bound}
+\begin{aligned}
+\|(H_0^{-1}w)_e\|_{\mathrm{HS}}
+&\le\sum_{e'}\|(H_0^{-1})_{ee'}\|_{\mathrm{op}}
+\|w_{e'}\|_{\mathrm{HS}}\\
+&\le M\|w\|_\infty.
+\end{aligned}
+\end{equation}
+The constant $M$ depends on the fixed parameters, not the volume.
+
+\subsection{The perturbation in the required operator norm}
+The implicit function argument below uses the maximum norm. We therefore
+need a row-sum estimate, in addition to the quadratic-form estimate
+\eqref{eq:full-hessian-quadratic-stability}. The subscript $ee'$ below
+denotes a Hessian matrix block acting from the $e'$ link to the $e$ link.
+
+Apply the local third-derivative estimates to two arbitrary link
+directions supported at $e$ and $e'$. For a plaquette term, polarization
+of \eqref{eq:plaquette-mixed-third-bound} and
+\eqref{eq:plaquette-fine-third-bound}, followed by the segment identity,
+gives
+\begin{equation}\label{eq:local-hessian-block-perturbation}
+\|(D_y^2f_p(x,y)-D_y^2f_p(0,0))_{ee'}\|_{\mathrm{op}}
+\le C\max(\|x\|_\infty,\|y\|_\infty)
+\mathbf1_{\{e,e'\in\partial p\}}.
+\end{equation}
+For one blocking term the same bound holds with support
+$\{e,e'\in\gamma_b\}$ and constant depending on $L,a$; its $x$ derivative
+is zero by \eqref{eq:exact-noise-cancellation}. A row meets at most six
+plaquette terms, with at most four fine-link reads each, and at most
+one straight-path term, with at most $L$ reads. Summing these finitely
+many blocks proves
+\begin{equation}\label{eq:hessian-perturbation-row-sum}
+\boxed{\sup_e\sum_{e'}
+\|(D_y^2\varphi(V(x),y)-H_0)_{ee'}\|_{\mathrm{op}}
+\le C\max(\|x\|_\infty,\|y\|_\infty).}
+\end{equation}
+In particular,
+\begin{equation}\label{eq:hessian-maximum-norm-perturbation}
+\|D_y^2\varphi(V(x),y)-H_0\|_{\infty\to\infty}
+\le C\max(\|x\|_\infty,\|y\|_\infty).
+\end{equation}
+The same finite-read argument with one coarse and one fine derivative
+gives a fixed $K\ge1$ such that
+\begin{equation}\label{eq:mixed-gradient-row-sum}
+\sup_e\sum_b\|(D_xD_y\varphi(V(x),y))_{eb}\|_{\mathrm{op}}
+\le K,\qquad
+\|D_xD_y\varphi(V(x),y)\|_{\infty\to\infty}\le K.
+\end{equation}
+These constants are uniform in the volume. This supplies the operator
+norm required by the implicit function theorem, rather than inferring
+it from an $\ell^2$ quadratic-form estimate.
+
+\subsection{A quantitative implicit function theorem}
+\begin{lemma}\label{lem:quantitative-implicit-function}
+Let $X,Y$ be finite-dimensional normed spaces. Suppose $F:X\times Y\to Y$
+is $C^1$ on an open neighbourhood of
+$\{\|x\|_X\le r_x,\ \|y\|_Y\le r_y\}$, with
+\begin{equation}\label{eq:abstract-implicit-base}
+F(0,0)=0,\qquad A:=D_yF(0,0)\text{ invertible},\qquad
+\|A^{-1}\|_{Y\to Y}\le M.
+\end{equation}
+Assume, throughout this product of balls,
+\begin{equation}\label{eq:abstract-implicit-inputs}
+\|D_yF(x,y)-A\|_{Y\to Y}\le\frac1{2M},\qquad
+\|D_xF(x,y)\|_{X\to Y}\le K,\qquad MKr_x\le\frac{r_y}{4}.
+\end{equation}
+Then for each $\|x\|_X<r_x$ there is exactly one zero $y=\rho(x)$ with
+$\|y\|_Y\le r_y$. The map $\rho$ is $C^1$ and
+\begin{equation}\label{eq:abstract-implicit-conclusion}
+\rho(0)=0,\qquad \|\rho(x)\|_Y\le2MK\|x\|_X\le\frac{r_y}{2}.
+\end{equation}
+If $F$ is real analytic, so is $\rho$.
+\end{lemma}
+\begin{proof}
+Set $\mathcal T_x(y):=y-A^{-1}F(x,y)$. Its derivative in $y$ has norm
+at most $1/2$. Moreover,
+\begin{equation}\label{eq:abstract-contraction-centre}
+\|\mathcal T_x(0)\|_Y
+\le M\|F(x,0)-F(0,0)\|_Y\le MK\|x\|_X\le\frac{r_y}{4}.
+\end{equation}
+Thus $\mathcal T_x$ maps the closed $r_y$-ball into itself and is a
+contraction there. Its unique fixed point is the unique zero of $F$ in
+that ball. The fixed-point identity gives
+\begin{equation}\label{eq:abstract-fixed-point-size}
+\|\rho(x)\|_Y\le\tfrac12\|\rho(x)\|_Y+MK\|x\|_X,
+\end{equation}
+which proves the size estimate and $\rho(0)=0$.
+
+The same comparison at two parameter values gives
+$\|\rho(x+h)-\rho(x)\|_Y\le2MK\|h\|_X$. Also $D_yF$ is invertible
+throughout the product of balls, with inverse norm at most $2M$.
+Expanding $F(x+h,\rho(x+h))-F(x,\rho(x))=0$ and using this Lipschitz
+bound proves
+\begin{equation}\label{eq:implicit-map-derivative}
+D\rho(x)=-D_yF(x,\rho(x))^{-1}D_xF(x,\rho(x)).
+\end{equation}
+Continuity of the factors proves the $C^1$ assertion. In the real-analytic
+case, the local power series for $F$ extend to complex arguments.
+After shrinking a neighbourhood of each solution, the same fixed-point
+iteration is a uniformly contracting holomorphic iteration; its uniform
+limit is holomorphic. Restriction to real arguments gives real analyticity.
+\end{proof}
+
+\subsection{Applying the theorem to the stationary equation}
+Take the coarse-coordinate and fine-coordinate spaces with the maximum
+norms in \eqref{eq:link-array-norms}, and put
+\begin{equation}\label{eq:stationary-gradient-map}
+F(x,y):=D_y\varphi(V(x),y),\qquad
+\mathcal T_x(y):=y-H_0^{-1}D_y\varphi(V(x),y).
+\end{equation}
+Then $F(0,0)=0$, $D_yF(0,0)=H_0$, and
+\begin{equation}\label{eq:stationary-map-derivative}
+D_y\mathcal T_x(y)=H_0^{-1}
+\bigl(H_0-D_y^2\varphi(V(x),y)\bigr).
+\end{equation}
+The inverse bound is \eqref{eq:uniform-maximum-inverse-bound}, and
+\eqref{eq:hessian-maximum-norm-perturbation} and
+\eqref{eq:mixed-gradient-row-sum} supply the remaining operator bounds.
+In particular,
+\begin{equation}\label{eq:stationary-gradient-at-zero}
+\|F(x,0)\|_\infty\le K\|x\|_\infty.
+\end{equation}
+Choose $r_x,r_y>0$, independent of the volume, so that
+\begin{equation}\label{eq:stationary-common-radii}
+r_x,r_y\le r_0,\qquad
+C\max(r_x,r_y)\le\min\left(\frac{\eta_0}{2},\frac1{2M}\right),
+\qquad MKr_x\le\frac{r_y}{4}.
+\end{equation}
+The lemma gives a unique stationary point in the closed $r_y$-ball:
+\begin{equation}\label{eq:stationary-point-construction}
+\boxed{m(V(x)):=\rho(x),\qquad
+D_y\varphi(V(x),\rho(x))=0,\qquad
+\|\rho(x)\|_\infty\le2MK\|x\|_\infty.}
+\end{equation}
+The map is real analytic, since the finite products and matrix
+exponentials defining $\varphi$ are real analytic.
+
+For $\|y\|_\infty<r_y$, the segment from $\rho(x)$ to $y$ stays in
+the common chart. Taylor's formula and stationarity give
+\begin{equation}\label{eq:stationary-relative-energy-cost}
+\begin{aligned}
+\varphi(V(x),y)-\varphi(V(x),\rho(x))
+&=\int_0^1(1-t)D_y^2\varphi\bigl(V(x),\rho(x)+t(y-\rho(x))\bigr)
+[y-\rho(x),y-\rho(x)]\,\dd t\\
+&\ge\frac{\eta_0}{4}\|y-\rho(x)\|_2^2.
+\end{aligned}
+\end{equation}
+Finally, at the stationary point,
+\begin{equation}\label{eq:stationary-hessian-two-sided}
+\frac{\eta_0}{2}\operatorname{Id}\le
+H(V(x)):=D_y^2\varphi(V(x),\rho(x))
+\le K_{\mathrm H}\operatorname{Id},
+\end{equation}
+where one can take $K_{\mathrm H}:=K_0+Cr_0$ after enlarging the common
+constant $C$. This verifies the near-identity stationary and Hessian
+inputs in the all-active sector. It does not provide the corresponding
+estimates for arbitrary frozen variables.
+
+\section{Small plaquettes and small blocking mismatches}\label{sec:straight-chart-entry}
+We now verify the geometric input \eqref{eq:geometric-chart-input} for
+the reference links in \eqref{eq:straight-reference-links}. The argument
+uses tree gauge, with a separate tree entirely inside each block.
+It does not require a tree joining different blocks.
+
+\begin{lemma}[A local chart-entry bound]\label{lem:straight-chart-entry}
+There is $C_L<\infty$, independent of the volume, such that every
+tree-gauge configuration satisfies
+\begin{equation}\label{eq:straight-chart-entry-bound}
+d_G\bigl(U_eR_e(V)^{-1}\bigr)
+\le C_L\max_p d_G(U_p)
++\max_b d_G\bigl(V_bQ(U)_b^{-1}\bigr),\qquad e\in I.
+\end{equation}
+Consequently, for every prescribed small $r_y>0$, there is $\delta_*>0$
+such that smallness of both maxima by $\delta_*$ implies
+$U=U(V,y)$ with $\|y\|_\infty<r_y$.
+\end{lemma}
+\begin{proof}
+\emph{Step 1: comparison by plaquette moves.}
+For $A,B\in G$, unitarity gives
+\begin{equation}\label{eq:chord-product-inequality}
+\begin{aligned}
+\|AB-I\|_{\mathrm{HS}}
+&\le\|(A-I)B\|_{\mathrm{HS}}+\|B-I\|_{\mathrm{HS}}\\
+&=\|A-I\|_{\mathrm{HS}}+\|B-I\|_{\mathrm{HS}}.
+\end{aligned}
+\end{equation}
+Thus $d_G(AB)\le d_G(A)+d_G(B)$. The chord is also invariant under
+conjugation and inversion. Inserting one plaquette boundary into a path
+changes its holonomy by at most the plaquette chord:
+\begin{equation}\label{eq:one-plaquette-path-comparison}
+d_G\bigl(U_{\alpha\,\partial p\,\omega}
+U_{\alpha\,\omega}^{-1}\bigr)
+=d_G\bigl(U_\alpha U_pU_\alpha^{-1}\bigr)=d_G(U_p).
+\end{equation}
+The loops used below lie in one block or two adjacent blocks and have
+length bounded in terms of $L$: a tree path has at most $L^4-1$ links,
+and a straight coarse-link path has $L$ links. Successive coordinate
+square moves and cancellation of backtracks contract each such loop
+inside a fixed integer box. There are at most $C_L$ moves. Applying
+\eqref{eq:one-plaquette-path-comparison} at each move yields
+\begin{equation}\label{eq:bounded-loop-plaquette-bound}
+d_G(U_\pi)\le C_L\max_p d_G(U_p)
+\end{equation}
+for these loops. At a periodic boundary, perform the same comparison in
+the integer lift containing the two blocks. The number of moves is unchanged.
+\begin{figure}[htbp]
+\centering
+\begin{minipage}[c]{.43\linewidth}
+\centering
+\begin{tikzpicture}[ym/base,scale=.7]
+  \coordinate (a) at (0,0);
+  \draw[ym/midarrow,blue!70!black] (-1.5,0)--(a)
+    node[midway,above=4pt] {$\alpha$};
+  \draw[ym/midarrow,blue!70!black] (a)--(-.6,-1.3)
+    node[midway,left=4pt] {$\omega$};
+  \draw[ym/midarrow,red!70!black] (a)--(1.7,0);
+  \draw[ym/midarrow,red!70!black] (1.7,0)--(1.7,1.5);
+  \draw[ym/midarrow,red!70!black] (1.7,1.5)--(0,1.5);
+  \draw[ym/midarrow,red!70!black] (0,1.5)--(a);
+  \node at (.85,.75) {$p$};
+  \node[ym/dot] at (a) {};
+\end{tikzpicture}
+\end{minipage}\hfill
+\begin{minipage}[c]{.52\linewidth}
+\centering
+\begin{tikzpicture}[ym/base,scale=.7]
+  \fill[blue!6] (0,0) rectangle (4,2);
+  \draw[ym/grid] (0,0) grid (4,2);
+  \draw[ym/midarrow,blue!70!black,line width=1.1pt] (0,0)--(4,0);
+  \draw[ym/midarrow,blue!70!black,line width=1.1pt] (4,0)--(4,2);
+  \draw[ym/midarrow,line width=1.1pt] (0,0)--(0,2);
+  \draw[ym/midarrow,line width=1.1pt] (0,2)--(4,2);
+  \node[below=5pt,blue!70!black] at (2,0) {$\gamma^{(0)}$};
+  \node[above=5pt] at (2,2) {$\gamma^{(k)}$};
+  \node[ym/dot] at (0,0) {};
+  \node[ym/dot] at (4,2) {};
+\end{tikzpicture}
+\end{minipage}
+\caption{Inserting a plaquette boundary between a prefix $\alpha$ and a
+suffix $\omega$ (left). Repeated square moves compare paths with the same
+endpoints by the plaquettes between them (right).}
+\label{fig:chart-entry-plaquette-moves}
+\end{figure}
+
+\emph{Step 2: an internal free link.}
+Let $e$ have both endpoints in $B_v$. Its reference value is
+$R_e(V)=1$. Denote by $\tau_{v,z}$ the unique path in the block tree
+from $Lv$ to $z\in B_v$. Both paths $\tau_{v,e_-}$ and
+$\tau_{v,e_+}$ stay inside $B_v$. The concatenation
+\begin{equation}\label{eq:internal-tree-loop}
+\pi_e:=\tau_{v,e_-}\,e\,\tau_{v,e_+}^{-1}
+\end{equation}
+is a loop based at $Lv$. Since all tree-link holonomies are one,
+\begin{equation}\label{eq:internal-tree-loop-holonomy}
+U_{\pi_e}=U_{\tau_{v,e_-}}U_eU_{\tau_{v,e_+}}^{-1}=U_e.
+\end{equation}
+Therefore
+\begin{equation}\label{eq:internal-reference-link-bound}
+d_G\bigl(U_eR_e(V)^{-1}\bigr)=d_G(U_e)
+\le C_L\max_p d_G(U_p).
+\end{equation}
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base,scale=1.05]
+  \fill[black!3] (-.4,-.4) rectangle (3.4,3.4);
+  \draw[black!45,dashed] (-.4,-.4) rectangle (3.4,3.4);
+  \foreach \x in {0,...,3} \draw[ym/grid] (\x,0)--(\x,3);
+  \foreach \y in {0,...,3} \draw[ym/grid] (0,\y)--(3,\y);
+  \foreach \x in {0,...,3} \draw[black!55,line width=.9pt] (\x,0)--(\x,3);
+  \draw[black!55,line width=.9pt] (0,0)--(3,0);
+  \draw[ym/midarrow,line width=1.4pt] (0,0)--(1,0);
+  \draw[ym/midarrow,blue!75!black,line width=1.4pt] (1,0)--(1,2);
+  \draw[ym/midarrow,green!45!black,line width=1.2pt,dashed] (1,0)--(2,0);
+  \draw[ym/midarrow,green!45!black,line width=1.2pt,dashed] (2,0)--(2,2);
+  \draw[ym/arrow,red!75!black,line width=1.3pt] (1,2)--(2,2)
+    node[midway,above=5pt] {$e$};
+  \node[left=5pt,blue!75!black] at (1,1.15) {$\tau_{v,e_-}$};
+  \node[right=5pt,green!45!black] at (2,.9) {$\tau_{v,e_+}$};
+  \node[ym/dot] at (0,0) {};
+  \node[below left=3pt] at (0,0) {$Lv$};
+  \node[ym/dot] at (1,2) {};
+  \node[above left=3pt] at (1,2) {$e_-$};
+  \node[ym/dot] at (2,2) {};
+  \node[above right=3pt] at (2,2) {$e_+$};
+  \node[above=5pt] at (1.5,3.4) {$B_v$};
+\end{tikzpicture}
+\caption{An internal free link $e$, with $R_e(V)=1$. The heavier grey edges form a
+tree entirely inside $B_v$. The two highlighted tree paths start at $Lv$;
+the loop traverses the second one in reverse. The red link is not a tree edge.}
+\label{fig:internal-chart-entry-loop}
+\end{figure}
+
+\emph{Step 3: a crossing free link.}
+Suppose $e$ crosses from $B_v$ to $B_{v+e_i}$ and let $b=(v,i)$.
+Now $R_e(V)=V_b$. The product inequality gives
+\begin{equation}\label{eq:crossing-mismatch-split}
+\begin{aligned}
+d_G(U_eV_b^{-1})
+&\le d_G\bigl(U_eQ(U)_b^{-1}\bigr)
++d_G\bigl(Q(U)_bV_b^{-1}\bigr)\\
+&=d_G\bigl(U_eQ(U)_b^{-1}\bigr)
++d_G\bigl(V_bQ(U)_b^{-1}\bigr).
+\end{aligned}
+\end{equation}
+The path $\gamma_b$ runs from $Lv$ to $L(v+e_i)$; it does not run
+from the arbitrary endpoint $e_+$ back to $Lv$. To close the loop, use
+the tree path in the second block as well:
+\begin{equation}\label{eq:crossing-tree-loop}
+\widetilde\pi_e:=\tau_{v,e_-}\,e\,
+\tau_{v+e_i,e_+}^{-1}\,\gamma_b^{-1}.
+\end{equation}
+This goes from $Lv$ to $e_-$, across $e$ to $e_+$, along the second
+block tree to $L(v+e_i)$, and then back to $Lv$ along $\gamma_b^{-1}$.
+In tree gauge,
+\begin{equation}\label{eq:crossing-tree-loop-holonomy}
+\begin{aligned}
+U_{\widetilde\pi_e}
+&=U_{\tau_{v,e_-}}U_eU_{\tau_{v+e_i,e_+}}^{-1}U_{\gamma_b}^{-1}\\
+&=U_eQ(U)_b^{-1}.
+\end{aligned}
+\end{equation}
+Its length is at most $2(L^4-1)+1+L$, so
+\eqref{eq:bounded-loop-plaquette-bound} gives
+\begin{equation}\label{eq:crossing-plaquette-comparison}
+d_G\bigl(U_eQ(U)_b^{-1}\bigr)\le C_L\max_p d_G(U_p).
+\end{equation}
+Combining the internal and crossing cases proves
+\eqref{eq:straight-chart-entry-bound}.
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base,x=.9cm,y=.8cm]
+  \fill[black!3] (-.4,-.4) rectangle (3.5,3.4);
+  \fill[blue!4] (3.5,-.4) rectangle (7.4,3.4);
+  \draw[black!50,dashed] (3.5,-.4)--(3.5,3.4);
+  \foreach \x in {0,...,7} \draw[ym/grid] (\x,0)--(\x,3);
+  \foreach \y in {0,...,3} \draw[ym/grid] (0,\y)--(7,\y);
+  \foreach \x in {0,...,7} \draw[black!50,line width=.8pt] (\x,0)--(\x,3);
+  \draw[black!50,line width=.8pt] (0,0)--(3,0) (4,0)--(7,0);
+  \draw[blue!75!black,line width=1.5pt] (0,0)--(3,0);
+  \draw[ym/midarrow,blue!75!black,line width=1.3pt] (3,0)--(3,2);
+  \draw[ym/midarrow,green!45!black,dashed,line width=1.3pt] (4,0)--(4,2);
+  \foreach \j in {0,...,3} {
+    \draw[ym/midarrow,line width=.75pt,dashed] (\j,0)--(\j+1,0);
+  }
+  \draw[ym/arrow,red!75!black,line width=1.3pt] (3,2)--(4,2)
+    node[midway,above=6pt] {$e$};
+  \node[ym/dot] at (0,0) {};
+  \node[ym/dot] at (4,0) {};
+  \node[ym/dot] at (3,2) {};
+  \node[ym/dot] at (4,2) {};
+  \node[below left=4pt] at (0,0) {$Lv$};
+  \node[below right=4pt] at (4,0) {$L(v+e_i)$};
+  \node[above left=3pt] at (3,2) {$e_-$};
+  \node[above right=3pt] at (4,2) {$e_+$};
+  \node[left=5pt,blue!75!black] at (3,1.1) {$\tau_{v,e_-}$};
+  \node[right=5pt,green!45!black] at (4,.9) {$\tau_{v+e_i,e_+}$};
+  \node[below=5pt] at (2,0) {$\gamma_b$};
+  \node[above=5pt] at (1.5,3.4) {$B_v$};
+  \node[above=5pt] at (5.5,3.4) {$B_{v+e_i}$};
+\end{tikzpicture}
+\caption{A crossing link, illustrated with $L=4$. Each grey tree stays
+inside its own block; no tree edge crosses the dashed interface.
+The bottom path $\gamma_b$ joins the roots and shares its initial segment
+with the blue tree path. The loop uses the green tree path and $\gamma_b$
+in reverse. Here $R_e(V)=V_b$.}
+\label{fig:crossing-chart-entry-loop}
+\end{figure}
+
+\emph{Step 4: entering exponential coordinates.}
+On a sufficiently small neighbourhood of $1\in G$, the logarithm is
+well defined and satisfies
+\begin{equation}\label{eq:local-logarithm-chord-bound}
+\|\log W\|_{\mathrm{HS}}\le C_Gd_G(W).
+\end{equation}
+Choose $\delta_*$ so that $(C_L+1)\delta_*$ stays in that neighbourhood
+and $C_G(C_L+1)\delta_*<r_y$. Then
+\begin{equation}\label{eq:chart-entry-coordinate-choice}
+y_e:=\log\bigl(U_eR_e(V)^{-1}\bigr),\qquad e\in I,
+\end{equation}
+has $\|y\|_\infty<r_y$ and gives $U_e=e^{y_e}R_e(V)$ on free links,
+with the tree links fixed at one. This proves the claim.
+\end{proof}
+
+\begin{remark}
+The preceding verifications concern the straight-path predictor and the
+all-active near-identity calculation. They supply its stationary point,
+two-sided Hessian bounds, small-chart convexity and geometric chart entry.
+Central-cutoff compatibility, the higher derivative and Haar inputs,
+the remaining numerical conditions and the large-plaquette tail still
+require their stated estimates. Arbitrary frozen sectors are not covered
+by the stationary-point argument above.
 \end{remark}
 
 \appendix
@@ -2544,6 +3257,46 @@ Finally, since $a>0$ is fixed,
 \end{equation}
 Absorb this fixed factor into $C_P$. The resulting constant is independent
 of the number of blocks, as required.
+\end{proof}
+
+\section{Derivatives of the matrix exponential}\label{sec:matrix-exponential-derivatives}
+The notation $D^k\exp_Y$ means the $k$th differential of the map
+$Y\mapsto e^Y$. In particular,
+\begin{equation}\label{eq:matrix-exponential-mixed-differential}
+D^k\exp_Y[Z_1,\ldots,Z_k]
+=\left.\partial_{t_1}\cdots\partial_{t_k}
+e^{Y+t_1Z_1+\cdots+t_kZ_k}\right|_{t=0}.
+\end{equation}
+\begin{lemma}\label{lem:matrix-exponential-derivatives}
+For $k=1,2,3$ and $Y,Z_1,\ldots,Z_k\in\g$,
+\begin{equation}\label{eq:matrix-exponential-derivative-bound}
+\boxed{\|D^k\exp_Y[Z_1,\ldots,Z_k]\|_{\mathrm{HS}}
+\le e^{\|Y\|_{\mathrm{HS}}}\prod_{j=1}^k\|Z_j\|_{\mathrm{HS}}.}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Expand
+\begin{equation}\label{eq:matrix-exponential-power-series}
+e^{Y+t_1Z_1+\cdots+t_kZ_k}
+=\sum_{n=0}^\infty\frac1{n!}(Y+t_1Z_1+\cdots+t_kZ_k)^n.
+\end{equation}
+The power series and its derivatives converge uniformly on bounded sets,
+so it can be differentiated term by term. The mixed derivative of the
+$n$th power is zero for $n<k$. For $n\ge k$, each surviving word contains
+one copy of each $Z_1,\ldots,Z_k$ and $n-k$ copies of $Y$.
+There are $\binom nk k!$ such words: choose the $k$ positions and
+then permute the directions. Submultiplicativity of the Hilbert--Schmidt
+norm gives
+\begin{equation}\label{eq:matrix-exponential-word-count}
+\begin{aligned}
+\|D^k\exp_Y[Z_1,\ldots,Z_k]\|_{\mathrm{HS}}
+&\le\sum_{n\ge k}\frac1{n!}\binom nk k!
+\|Y\|_{\mathrm{HS}}^{n-k}\prod_{j=1}^k\|Z_j\|_{\mathrm{HS}}\\
+&=\sum_{n\ge k}\frac{\|Y\|_{\mathrm{HS}}^{n-k}}{(n-k)!}
+\prod_{j=1}^k\|Z_j\|_{\mathrm{HS}}\\
+&=e^{\|Y\|_{\mathrm{HS}}}\prod_{j=1}^k\|Z_j\|_{\mathrm{HS}}.
+\end{aligned}
+\end{equation}
 \end{proof}
 
 % Embedded bibliography, following the amsalphaabbr style of the reference template.
