@@ -1,11 +1,8 @@
 % !TeX program = xelatex
-% English publication copy adapted from the corrected 64-page handwritten source.
-% Added source pp. 43--53 and Appendix 3 on p. 63; the Haar appendix is on pp. 55--57.
-% Blank source pp. 54 and 64 are omitted.
-% Publication corrections keep both block trees internal and close the crossing loop through the second root.
-% Approved domain correction on source p. 33: enlargement of the Haar domain gives an inequality.
-% Approved local amendment: define Omega on source p. 16, retain the domain
-% in the sector integral and use {z : m+gz in Omega} after the change of variables.
+% English publication copy adapted from the 20 November 2026 transcription.
+% The handwritten source has 94 pages; source p. 73 is blank.
+% Later corrections are incorporated into the earlier arguments.
+% Weighted stationary estimates use 0 <= theta < -log(q).
 \documentclass[10pt,reqno]{amsart}
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amssymb,amsthm,mathtools,bm}
@@ -17,6 +14,7 @@
 \theoremstyle{definition}
 \newtheorem{definition}{Definition}[section]
 \newtheorem{lemma}[definition]{Lemma}
+\newtheorem{proposition}[definition]{Proposition}
 \newtheorem{example}[definition]{Example}
 \theoremstyle{remark}
 \newtheorem{remark}[definition]{Remark}
@@ -92,7 +90,7 @@
 \date{}
 \AddToHook{cmd/@setauthors/after}{%
   \begingroup\centering\normalfont\footnotesize
-  Personal study notes --- 18 November 2026\par\endgroup}
+  Personal study notes --- 20 November 2026\par\endgroup}
 \begin{document}
 
 \maketitle
@@ -103,15 +101,13 @@ translated and edited with AI assistance. They accompany the AI-generated
 working exposition \cite{Exposition}, based on the OpenAI Yang--Mills Lean
 project; source provenance and review limits are described in the repository
 README. This installment covers the Wilson measure, exact blocking, tree gauge,
-exponential coordinates, the central Gaussian estimate, conditional tail
-bounds and a summary of exact sector reassembly. This installment also
-calculates the Hessian at the identity and proves a blocking Poincar\'e
-estimate for the straight-path predictor. It then chooses reference links,
-controls the Hessian near the identity, constructs the local stationary
-point and proves geometric chart entry. Block trees remain internal to
-their blocks. The remaining model-dependent inputs are stated explicitly;
-the continuum
-construction is not established here. Corrections and missing references are welcome.
+exponential coordinates and conditional Gaussian and tail estimates. It
+constructs the local stationary point for the straight-path reference
+links, with a blocking Poincar\'e estimate, Hessian bounds, chart entry
+and local derivative and Haar estimates. It also treats the Schur
+complement and weighted analytic coefficients of the stationary energy.
+The remaining inputs and parameter restrictions are stated where used;
+the continuum construction is not established here. Corrections and missing references are welcome.
 \end{list}
 
 \tableofcontents
@@ -639,6 +635,7 @@ The coarse density is therefore
 \dd\Hf(U).
 \end{aligned}
 \end{equation}
+
 \section{Tree gauge}
 We follow \cite[Section~11, Lemma~11.2, p.~37]{Exposition}.
 
@@ -763,7 +760,7 @@ It follows that
 \int_{G^I}e^{-\beta A(V,U_T(u))}\,\dd h_G^I(u).
 }
 \end{equation}
-\section{Exponential coordinates and sectors}
+\section{Exponential coordinates and sectors}\label{sec:sector-coordinates}
 We express the remaining group-valued links in local exponential coordinates.
 
 Near the identity, write $U=e^X$. Equip $\g$ with the inner product $\langle X,Y\rangle_\g=\operatorname{Re}\tr(X^*Y)$ and $G$ with the induced left-invariant Riemannian metric. Then
@@ -1087,8 +1084,9 @@ of these points, and that, for a common $K_*\ge1$,
 \|D_y^2\psi\|_{\mathrm{op}}\le K_*.
 \end{equation}
 The operator norms here are those of multilinear forms on the active
-Euclidean coordinate space. Their validity for the chosen reference links,
-stationary centre and Hessian remains a model-dependent task.
+Euclidean coordinate space. Section~\ref{sec:local-derivative-inputs} verifies these bounds for the
+all-active straight-path construction under its stated trajectory
+conditions. Their validity on arbitrary frozen sectors remains an input.
 
 \begin{lemma}[Second derivative of the central logarithm]\label{lem:central-log-second}
 Under \eqref{eq:common-central-neighbourhood}--\eqref{eq:central-derivative-inputs},
@@ -1239,6 +1237,7 @@ Under these assumptions, uniformly over the specified parameter range,
 \end{equation}
 The Gaussian error decreases as $D$ increases, while $B(K_*,D)$ and
 the chart condition retain their displayed dependence on $D$.
+
 
 \section{Returning to the full sector integral}\label{sec:sector-tail}
 We return to
@@ -1521,7 +1520,8 @@ Assume that, throughout the coordinate neighbourhood in question,
 \le K_{\mathrm c}.
 }
 \end{equation}
-This is an input to be established for a suitable choice of $R_e$.
+Section~\ref{sec:local-derivative-inputs} proves this bound for the
+straight-path reference links in the all-active sector.
 For a segment $tx$, $0\le t\le1$, in that neighbourhood, put
 $f(t):=\varphi(V(tx),0)$. Then
 \begin{equation}\label{eq:coarse-line-derivatives}
@@ -1531,29 +1531,32 @@ f''(t)&=\sum_{i,j}\partial_{x_i}\partial_{x_j}
 [\varphi(V(x),0)]_{x=tx}\,x_ix_j.
 \end{aligned}
 \end{equation}
-Each real component is bounded by $\|x\|_\infty$, so
+Symmetry of the Hessian and $|ab|\le(a^2+b^2)/2$ give
 \begin{equation}\label{eq:coarse-row-sum-calculation}
 \begin{aligned}
 |f''(t)|
-&\le\sum_i|x_i|\sum_j
-\left|\partial_{x_i}\partial_{x_j}[\varphi(V(x),0)]_{x=tx}\right||x_j|\\
-&\le K_{\mathrm c}\|x\|_\infty\sum_i|x_i|\\
-&\le K_{\mathrm c}\bigl(\#E_{\ell/L}^+\dim_\R\g\bigr)\|x\|_\infty^2\\
-&\le C\ell^4\|x\|_\infty^2.
+&\le\frac12\sum_{i,j}
+\left|\partial_{x_i}\partial_{x_j}[\varphi(V(x),0)]_{x=tx}\right|
+(x_i^2+x_j^2)\\
+&\le K_{\mathrm c}\sum_i x_i^2
+=K_{\mathrm c}\sum_b\|x_b\|_{\mathrm{HS}}^2
+\le C\ell^4\|x\|_\infty^2.
 \end{aligned}
 \end{equation}
 Combining $f(0)=f'(0)=0$ with Taylor's formula yields
 \begin{equation}\label{eq:coarse-reference-energy-bound}
-\varphi(V(x),0)\le C\ell^4\|x\|_\infty^2.
+\varphi(V(x),0)\le\frac{K_{\mathrm c}}2\sum_b\|x_b\|_{\mathrm{HS}}^2
+\le C\ell^4\|x\|_\infty^2.
 \end{equation}
 Therefore
 \begin{equation}\label{eq:coarse-stationary-energy-bound}
-\varphi(V(x),m(V(x)))\le C\ell^4\|x\|_\infty^2.
+\varphi(V(x),m(V(x)))\le\frac{K_{\mathrm c}}2\sum_b\|x_b\|_{\mathrm{HS}}^2
+\le C\ell^4\|x\|_\infty^2.
 \end{equation}
 The constant depends on the common row-sum bound and the fixed Lie algebra;
 it is independent of the lattice volume when these inputs are uniform.
 
-\subsection{Joining the two energy estimates}
+\subsection{The relative cost outside the small chart}
 Suppose the parameters satisfy
 \begin{equation}\label{eq:coarse-energy-smallness}
 C\ell^4\|x\|_\infty^2\le\frac{a\delta_*^2}{4}.
@@ -1563,181 +1566,151 @@ cost \eqref{eq:outside-chart-absolute-cost} then implies
 \begin{equation}\label{eq:outside-chart-relative-cost}
 A(V,U)-\varphi(V,m(V))\ge\frac{a\delta_*^2}{4}.
 \end{equation}
-If also
-\begin{equation}\label{eq:fluctuation-radius-smallness}
-g^2D^2\le\frac{a\delta_*^2}{2\eta},
-\end{equation}
-then
-\begin{equation}\label{eq:outside-chart-relative-D-cost}
-g^{-2}\bigl[A(V,U)-\varphi(V,m(V))\bigr]\ge\frac{\eta D^2}{2}.
-\end{equation}
 Define the image of the central ball by
 \begin{equation}\label{eq:central-group-region}
 C_V:=\{U(V,m(V)+gz):z\in\g^I,\ |z|\le D\}.
 \end{equation}
 Central cutoff compatibility ensures this ball lies in the chart.
-Inside the small chart use \eqref{eq:small-chart-energy-cost}; outside it
-use \eqref{eq:outside-chart-relative-D-cost}. Together they give
-\begin{equation}\label{eq:combined-relative-energy-cost}
-g^{-2}\bigl[A(V,U)-\varphi(V,m(V))\bigr]\ge\frac{\eta D^2}{2}
-\end{equation}
-for every $U=U(V,y)\in G_h\setminus C_V$ with $y\in\Omega$.
-This is the common relative cost on the chart image needed below.
+The next section estimates the small-chart and outside-chart
+contributions separately, retaining their respective quadratic and
+mismatch costs.
 
 \section{A normalized plaquette-small tail}\label{sec:normalized-good-tail}
-Still in the all-active sector, consider the plaquette-small part of the tail
+In the all-active sector, define
 \begin{equation}\label{eq:plaquette-small-tail-definition}
 T_D^{\mathrm{good}}(V):=
-\int_{\substack{\Omega\cap\{|y-m(V)|>gD\}\\U(V,y)\in G_h}}
+\int_{\substack{y\in\Omega,\ |y-m(V)|>gD\\U(V,y)\in G_h}}
 \left(\prod_{e\in I}\chi(e^{y_e})\right)
-e^{-g^{-2}\varphi(V,y)-\psi(V,y)}\,\dd y.
+e^{-g^{-2}\varphi(V,y)-\psi(y)}\,\dd y.
 \end{equation}
-The active cutoff factors are retained, so this is the exact plaquette-small
-part of the all-active tail in \eqref{eq:TD-definition}. It includes points
-both inside and outside the small chart. The small-chart restriction
-\eqref{eq:small-chart-tail-definition} is an intermediate estimate, not
-a third contribution to the good--bad decomposition below.
-
-The inverse Haar change of variables retains the chart image. Dropping
-the cutoff factors, which lie in $[0,1]$, and extending that image gives
-\begin{equation}\label{eq:good-tail-haar-upper-bound}
-T_D^{\mathrm{good}}(V)
-\le\zeta_G^{-|I|}
-\int_{G_h\setminus C_V}e^{-g^{-2}A(V,U)}\,\dd h_G^I(U).
+The complementary integral, with $U(V,y)\notin G_h$, is denoted by
+$T_D^{\mathrm{bad}}(V)$. Thus
+\begin{equation}\label{eq:summary-good-bad-split}
+T_D(g;V)=T_D^{\mathrm{good}}(V)+T_D^{\mathrm{bad}}(V).
 \end{equation}
-Here and below the group integral is over tree-gauge configurations,
-parametrized by their links in $I$. Equality in the Haar change of
-variables requires retaining the chart image in the integration domain.
+We estimate the first term by separating the regions
+$\|y\|_\infty\le r_y$ and $\|y\|_\infty>r_y$. This subdivision is
+inside $T_D^{\mathrm{good}}$; the small-chart tail is not a third
+term in \eqref{eq:summary-good-bad-split}.
 
-For the numerical bound, retain that image and use
-\eqref{eq:combined-relative-energy-cost} there. On this domain,
-\begin{equation}\label{eq:good-tail-integrand-bound}
+Recall
+\begin{equation}\label{eq:all-active-Ng}
+N_g(V)=e^{-g^{-2}\varphi(V,m)-\psi(m)}
+\frac{(2\pi g^2)^{d/2}}{\sqrt{\det H(V)}},\qquad
+d=|I|\dim_\R\g.
+\end{equation}
+We use the common Hessian bounds
+\begin{equation}\label{eq:fine-Hessian-upper-input}
+\eta\operatorname{Id}\le H(V)\le K_{\mathrm H}\operatorname{Id},
+\qquad K_{\mathrm H}\ge1.
+\end{equation}
+For the straight-path construction they follow from
+\eqref{eq:stationary-hessian-two-sided}, with $\eta=\eta_0/2$.
+In particular,
+\begin{equation}\label{eq:Hessian-determinant-upper-bound}
+\sqrt{\det H(V)}\le K_{\mathrm H}^{d/2}.
+\end{equation}
+Smoothness of $\log j_G$ on the closed small chart gives
+\begin{equation}\label{eq:log-j-bound}
+\sup_{\|X\|_{\mathrm{HS}}\le r_y}|\log j_G(X)|\le C_j,
+\qquad |\psi(m)|\le C_j|I|.
+\end{equation}
+
+\subsection{Inside the small chart}
+If $\|y\|_\infty\le r_y$ and $|y-m|>gD$, split the quadratic energy
+cost into two equal parts:
+\begin{equation}\label{eq:good-tail-quadratic-split}
+g^{-2}\bigl[\varphi(V,y)-\varphi(V,m)\bigr]
+\ge\frac{\eta}{4g^2}|y-m|^2+\frac{\eta D^2}{4}.
+\end{equation}
+Also $|\psi(y)-\psi(m)|\le2C_j|I|\le Cd$. Dropping the cutoff and
+extending the Euclidean domain therefore gives
+\begin{equation}\label{eq:good-tail-small-chart-bound}
 \begin{aligned}
-e^{-g^{-2}A(V,U)}
-&=e^{-g^{-2}\varphi(V,m(V))}
-e^{-g^{-2}[A(V,U)-\varphi(V,m(V))]}\\
-&\le e^{-g^{-2}\varphi(V,m(V))}e^{-\eta D^2/2}.
+&\int_{\substack{y\in\Omega,\ |y-m|>gD\\
+ U(V,y)\in G_h,\ \|y\|_\infty\le r_y}}
+\left(\prod_e\chi(e^{y_e})\right)
+e^{-g^{-2}\varphi(V,y)-\psi(y)}\,\dd y\\
+&\quad\le e^{-g^{-2}\varphi(V,m)-\psi(m)+Cd-\eta D^2/4}
+\int_{\R^d}e^{-\eta|y-m|^2/(4g^2)}\,\dd y\\
+&\quad=e^{-g^{-2}\varphi(V,m)-\psi(m)+Cd-\eta D^2/4}
+\left(\frac{4\pi g^2}{\eta}\right)^{d/2}.
 \end{aligned}
 \end{equation}
-The Haar mass of the restricted domain is at most one. It follows that
-\begin{equation}\label{eq:good-tail-unnormalized-bound}
-T_D^{\mathrm{good}}(V)
-\le\zeta_G^{-|I|}e^{-g^{-2}\varphi(V,m(V))}e^{-\eta D^2/2}.
+The factor $g^d$ is retained. After division by $N_g(V)$, the
+Gaussian factors satisfy
+\begin{equation}\label{eq:good-tail-gaussian-factor-cancellation}
+\frac{(4\pi g^2/\eta)^{d/2}}{(2\pi g^2)^{d/2}}
+\sqrt{\det H(V)}
+\le\left(\frac{2K_{\mathrm H}}{\eta}\right)^{d/2}.
 \end{equation}
-Recall the Gaussian normalization
-\begin{equation}\label{eq:all-active-Ng}
-N_g(V)=\frac{(2\pi g^2)^{d/2}}{(\det H(V))^{1/2}}
-e^{-g^{-2}\varphi(V,m(V))-\psi(V,m(V))},
-\qquad d=|I|\dim_\R\g.
-\end{equation}
-Consequently,
-\begin{equation}\label{eq:good-tail-normalized-factors}
-\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}
-\le\zeta_G^{-|I|}(2\pi g^2)^{-d/2}(\det H(V))^{1/2}
-e^{\psi(V,m(V))-\eta D^2/2}.
-\end{equation}
+Thus the normalized small-chart contribution is at most
+$\exp(Cd-\eta D^2/4)$.
 
-Assume in addition the fine-coordinate Hessian upper bound
-\begin{equation}\label{eq:fine-Hessian-upper-input}
-H(V)\le K_{\mathrm H}\,\mathrm{Id},\qquad K_{\mathrm H}\ge1.
+\subsection{Outside the small chart}
+For $U(V,y)\in G_h$ and $\|y\|_\infty>r_y$,
+\eqref{eq:outside-chart-relative-cost} gives
+$\varphi(V,y)-\varphi(V,m)\ge a\delta_*^2/4$.
+The inverse Haar change of variables is used only on its chart image.
+Its extension gives an inequality, since the normalized Haar mass is
+at most one. Consequently
+\begin{equation}\label{eq:good-tail-outside-chart-bound}
+\begin{aligned}
+&\int_{\substack{y\in\Omega,\ |y-m|>gD\\
+ U(V,y)\in G_h,\ \|y\|_\infty>r_y}}
+\left(\prod_e\chi(e^{y_e})\right)
+e^{-g^{-2}\varphi(V,y)-\psi(y)}\,\dd y\\
+&\quad\le\zeta_G^{-|I|}e^{-g^{-2}\varphi(V,m)}
+e^{-a\delta_*^2/(4g^2)}.
+\end{aligned}
 \end{equation}
-This is distinct from the coarse-coordinate row-sum input
-\eqref{eq:coarse-row-sum-input}. Since $H(V)>0$,
-\begin{equation}\label{eq:Hessian-determinant-upper-bound}
-(\det H(V))^{1/2}\le K_{\mathrm H}^{d/2}.
+Dividing by $N_g(V)$ and using
+\eqref{eq:Hessian-determinant-upper-bound}--\eqref{eq:log-j-bound}
+bounds this contribution by
+$\exp[-a\delta_*^2/(4g^2)+d\log(1/g)+Cd]$ for $0<g\le1$.
+The fixed Haar factor is absorbed once into $Cd$.
+
+Combining the two regions proves
+\begin{equation}\label{eq:good-tail-two-term-bound}
+\boxed{\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}
+\le e^{Cd-\eta D^2/4}
++\exp\left(-\frac{a\delta_*^2}{4g^2}+d\log\frac1g+Cd\right).}
 \end{equation}
-Also,
-\begin{equation}\label{eq:centre-haar-correction}
-\psi(V,m)=-\sum_{e\in I}\log j_G(m_e).
+The constant depends on the fixed group data, the small chart and the
+common Hessian bounds, not the volume.
+
+\subsection{Sufficient parameter conditions}
+In addition to the background-energy condition
+\eqref{eq:coarse-energy-smallness}, suppose
+\begin{equation}\label{eq:good-tail-improved-conditions}
+Cd\le\frac{\eta D^2}{8},\qquad
+d\log\frac1g+Cd\le\frac{a\delta_*^2}{8g^2}.
 \end{equation}
-The assumptions $|m_e|_\g\le r_y<r_G$ and positivity and smoothness of $j_G$
-give a finite constant $C_j$ with
-\begin{equation}\label{eq:log-j-bound}
-\sup_{|X|_\g\le r_y}|\log j_G(X)|\le C_j.
-\end{equation}
-Thus
-\begin{equation}\label{eq:centre-haar-bound}
-|\psi(V,m)|\le C_j|I|.
-\end{equation}
-Combining the bounds yields
-\begin{equation}\label{eq:good-tail-entropy-bound}
-\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}
-\le\zeta_G^{-|I|}\exp\left(-\frac{\eta D^2}{2}+d\log\frac1g+Cd\right),
-\end{equation}
-where $C$ depends on the fixed group metric, $r_y$ and $K_{\mathrm H}$.
-If the parameters are chosen so that
-\begin{equation}\label{eq:tail-radius-entropy-input}
-\boxed{d\log\frac1g+Cd\le\frac{\eta D^2}{4},}
-\end{equation}
-then
+Then
 \begin{equation}\label{eq:good-tail-final-bound}
-\boxed{\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}\le\zeta_G^{-|I|}e^{-\eta D^2/4}.}
+\boxed{\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}
+\le e^{-\eta D^2/8}+e^{-a\delta_*^2/(8g^2)}.}
 \end{equation}
-Since $|I|=d/\dim_\R\g$, the fixed Haar factor equals
-$\exp[-d(\dim_\R\g)^{-1}\log\zeta_G]$. It can instead be absorbed
-into a larger constant $C$ in $Cd$. With that larger constant in
-\eqref{eq:tail-radius-entropy-input}, the same calculation gives
-\begin{equation}\label{eq:good-tail-absorbed-prefactor}
-\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}\le e^{-\eta D^2/4}.
+For growing lattices with $d\asymp\ell^4$, sufficient asymptotic
+conditions for these bounds, the Gaussian ball condition
+\eqref{eq:small-central-tail-input}, and the central trajectory bounds
+are
+\begin{equation}\label{eq:sufficient-global-parameter-regime}
+\|x\|_\infty\ll\ell^{-2},\qquad
+g\sqrt{\log(1/g)}\ll\ell^{-2},\qquad
+\ell^2\sqrt{\log\ell}\ll D\ll g^{-1}.
 \end{equation}
-The explicit and absorbed conventions use different constants $C$;
-the Haar factor is counted only once.
+Here each $\ll$ means that the ratio of the left side to the right
+side tends to zero. These conditions concern the displayed global
+estimates. A small central logarithmic error also requires control of
+$B(K_*,D)g^2$; compatibility with a prescribed continuum coupling
+family and the large-plaquette contribution remains open.
 
-\begin{remark}
-The choice of $D$ can depend on $d$ and $g$. In a limiting application one
-wants $D\to\infty$ while $gD\to0$, subject to all the displayed parameter
-conditions. Their compatibility and the model-dependent inputs, as well as
-the contribution of $G_h^c$, remain to be established beyond this installment.
-\end{remark}
 
 \section{Summary of the one-step calculation}\label{sec:one-step-summary}
-We collect the identities and conditional estimates obtained so far.
-The calculation concerns one blocking step. The geometric, stationary
-and derivative estimates below remain inputs until they are verified
-for the chosen reference links and parameter range.
-
-\subsection{The effective density and its exact sector sum}
-The current object is
-\begin{equation}\label{eq:summary-effective-density}
-\Fc(V)=\int_{\mathcal U_\ell}K_\beta(U,V)e^{-\beta W_\ell(U)}\,\dd\Hf(U),
-\end{equation}
-where
-\begin{equation}\label{eq:summary-blocking-kernel}
-K_\beta(U,V)=\prod_{e\in E_{\ell/L}^+}
-\frac{e^{-a\beta q_G(V_eQ(U)_e^{-1})}}{z_n(\beta)},
-\qquad q_G(W)=\frac1{2N}\|W-I\|_{\mathrm{HS}}^2.
-\end{equation}
-With
-\begin{equation}\label{eq:summary-action}
-A(V,U)=W_\ell(U)+a\sum_{e\in E_{\ell/L}^+}q_G(V_eQ(U)_e^{-1}),
-\end{equation}
-tree gauge gives
-\begin{equation}\label{eq:summary-tree-density}
-\Fc(V)=z_n(\beta)^{-\#E_{\ell/L}^+}
-\int_{G^I}e^{-\beta A(V,U_T(u))}\,\dd h_G^I(u),
-\qquad
-U_T(u)_e=\begin{cases}1,&e\in T,\\u_e,&e\in I.\end{cases}
-\end{equation}
-
-For each sector $\Ia\subset I$, put $\If=I\setminus\Ia$ and use
-\begin{equation}\label{eq:summary-sector-configuration}
-U(V,Y,y)_e=\begin{cases}
-1,&e\in T,\\
-e^{y_e}R_e(V),&e\in\Ia,\\
-Y_e,&e\in\If.
-\end{cases}
-\end{equation}
-The active chart and its integrand are
-\begin{equation}\label{eq:summary-sector-data}
-\begin{gathered}
-\Omega=\{y\in\g^{\Ia}:|y_e|_\g<r_G\text{ for every }e\in\Ia\},\\
-\varphi(V,Y,y)=A(V,U(V,Y,y)),\qquad
-\psi(V,Y,y)=-\sum_{e\in\Ia}\log j_G(y_e),\\
-\Theta(V,Y,y)=\prod_{e\in\Ia}\chi(e^{y_e})
-\prod_{e\in\If}\left[1-\chi(Y_eR_e(V)^{-1})\right].
-\end{gathered}
-\end{equation}
-Since $\dd h_G(e^{y_e}R_e(V))=\zeta_Gj_G(y_e)\,\dd y_e$,
+We retain the exact sector identities and refer to the preceding
+derivations for their estimates. Tree gauge and exponential coordinates
+give
 \begin{equation}\label{eq:summary-exact-sector-sum}
 \begin{aligned}
 \Fc(V)
@@ -1745,112 +1718,16 @@ Since $\dd h_G(e^{y_e}R_e(V))=\zeta_Gj_G(y_e)\,\dd y_e$,
 \sum_{\Ia\subset I}\zeta_G^{|\Ia|}
 \int_{G^{\If}}\dd h_G^{\If}(Y)\\
 &\qquad\times\int_\Omega
-\Theta(V,Y,y)e^{-g^{-2}\varphi(V,Y,y)-\psi(V,Y,y)}\,\dd y,
+\Theta(V,Y,y)e^{-g^{-2}\varphi(V,Y,y)-\psi(y)}\,\dd y,
 \qquad g=\beta^{-1/2}.
 \end{aligned}
 \end{equation}
-The noise normalizer and the active Haar factors are kept separately.
+The data $\Omega,\Theta,\varphi,\psi$ are those of
+Section~\ref{sec:sector-coordinates}; the noise normalizer and active
+Haar factors are kept separately.
 
-For a sector on which the stationary inputs are available, choose
-\begin{equation}\label{eq:summary-stationary-data}
-m=m(V,Y),\qquad D_y\varphi(m)=0,\qquad
-H=D_y^2\varphi(m)>0,\qquad C=H^{-1}.
-\end{equation}
-Then the exact Gaussian representation is
-\begin{equation}\label{eq:summary-gaussian-sector-sum}
-\begin{aligned}
-\Fc(V)
-&=z_n(\beta)^{-\#E_{\ell/L}^+}
-\sum_{\Ia\subset I}\zeta_G^{|\Ia|}
-\int_{G^{\If}}\dd h_G^{\If}(Y)\\
-&\quad\times(2\pi g^2)^{d/2}(\det H)^{-1/2}
-e^{-g^{-2}\varphi(m)-\psi(m)}\\
-&\quad\times\int_{\{z:m+gz\in\Omega\}}\Theta(m+gz)
-e^{V_0(z)-V_g(z)+\psi(m)-\psi(m+gz)}\,\dd\mu_C(z).
-\end{aligned}
-\end{equation}
-Here $d=|\Ia|\dim_\R\g$, and the stationary data and integrands depend
-on the sector. This stationary form of the full sum is conditional on
-having these data on every sector and parameter value being used.
-For the empty active set, the zero-dimensional integral and determinant
-are one, and the tail is zero.
-
-\subsection{The central estimate and the sector remainder}
-For $d\ge1$, the quantitative inputs are:
-\begin{enumerate}[label=(\roman*)]
-\item A common $g_*>0$ keeps $m+tgz$ in $\Omega$ for
-$|g|\le g_*$, $|z|\le D$ and $0\le t\le1$. The central cutoff is one:
-\begin{equation}\label{eq:summary-central-compatibility}
-\chi(e^{y_e})=1\quad(e\in\Ia)
-\quad\text{whenever }|y-m|\le |g|D.
-\end{equation}
-The absolute value is used when the auxiliary coupling parameter is
-allowed to be negative; the physical integral has $g>0$.
-\item On a neighbourhood of these trajectories, $\varphi$ is $C^4$,
-$\psi$ is $C^2$, and there is a common $K_*$ such that
-\begin{equation}\label{eq:summary-derivative-inputs}
-\|D_y^3\varphi\|_{\mathrm{op}},\quad
-\|D_y^4\varphi\|_{\mathrm{op}},\quad
-\|D_y\psi\|_{\mathrm{op}},\quad
-\|D_y^2\psi\|_{\mathrm{op}}\le K_*.
-\end{equation}
-\item The stationary Hessian satisfies $H\ge\eta\,\mathrm{Id}$
-for a common $\eta>0$.
-\item The Gaussian tail is small enough:
-\begin{equation}\label{eq:summary-Gaussian-radius-input}
-2d\exp\left(-\frac{\eta D^2}{2d}\right)\le\frac12.
-\end{equation}
-\end{enumerate}
-For the auxiliary integral
-\begin{equation}\label{eq:summary-central-integral}
-Z_D(g)=\int_{|z|\le D}
-e^{V_0(z)-V_g(z)+\psi(m)-\psi(m+gz)}\,\dd\mu_C(z),
-\end{equation}
-these inputs give
-\begin{equation}\label{eq:summary-central-bound}
-\boxed{
-|\log Z_D(g;V,Y)|
-\le B(K_*,D)g^2+4d\exp\left(-\frac{\eta D^2}{2d}\right),
-\quad |g|\le g_*.
-}
-\end{equation}
-
-Returning to the physical coupling $g>0$, put
-\begin{equation}\label{eq:summary-sector-normalization}
-N_g=(2\pi g^2)^{d/2}(\det H)^{-1/2}
-e^{-g^{-2}\varphi(m)-\psi(m)}.
-\end{equation}
-Central cutoff compatibility gives
-\begin{equation}\label{eq:summary-sector-tail-identity}
-\int_\Omega\Theta(y)e^{-g^{-2}\varphi(y)-\psi(y)}\,\dd y
-=\Theta_f(V,Y)N_g\left[Z_D(g)+\frac{T_D(g)}{N_g}\right],
-\end{equation}
-where
-\begin{equation}\label{eq:summary-tail-definition}
-T_D(g)=\int_{\Omega\cap\{|y-m|>gD\}}
-\left(\prod_{e\in\Ia}\chi(e^{y_e})\right)
-e^{-g^{-2}\varphi(y)-\psi(y)}\,\dd y.
-\end{equation}
-In the inverse Haar change of variables, the active links are
-$U_e=e^{y_e}R_e(V)$, the tree links are fixed at one, and the frozen links
-remain $Y$. Thus
-\begin{equation}\label{eq:summary-tail-Haar-identity}
-\begin{aligned}
-T_D(g)
-&=\zeta_G^{-|\Ia|}
-\int_{\{U(V,Y,y):\,y\in\Omega,\ |y-m|>gD\}}
-\left(\prod_{e\in\Ia}\chi(e^{y_e})\right)\\
-&\qquad\times e^{-g^{-2}A(V,U)}\,\dd h_G^{\Ia}(U).
-\end{aligned}
-\end{equation}
-The measure in this display is Haar measure on the active links only.
-The coordinates in its integrand are the unique
-$y_e=\log(U_eR_e(V)^{-1})$ on the displayed chart image.
-Extending the Haar domain beyond that image gives an upper bound,
-rather than an equality.
-
-If these inputs hold on each sector, the exact effective density can also
-be written as
+On every sector for which the stationary and central-cutoff inputs
+hold, \eqref{eq:full-sector-normalized} gives
 \begin{equation}\label{eq:summary-normalized-reassembly}
 \begin{aligned}
 \Fc(V)
@@ -1861,144 +1738,21 @@ be written as
 +\frac{T_D(g;V,Y)}{N_g(V,Y)}\right]\,\dd h_G^{\If}(Y).
 \end{aligned}
 \end{equation}
-The central estimate controls $Z_D$; the remaining task is to bound the
-normalized tails in the parameter ranges needed in this sum.
+Writing the full sum in this form is conditional on having the stated
+inputs on every sector being used. For the empty active set, the
+zero-dimensional integral and determinant are one and the tail is zero.
 
-\subsection{The small-chart estimate and the exact good--bad split}
-Assume
-\begin{equation}\label{eq:summary-small-chart-input}
-\begin{gathered}
-0<r_y<r_G,\qquad \|m\|_\infty<r_y,\\
-D_y^2\varphi(y)\ge\eta\,\mathrm{Id}
-\quad\text{for }\|y\|_\infty\le r_y.
-\end{gathered}
-\end{equation}
-The small-chart portion is
-\begin{equation}\label{eq:summary-small-chart-tail}
-T_D^{\mathrm{small}}(g)=
-\int_{\substack{y\in\Omega,\ |y-m|>gD\\\|y\|_\infty\le r_y}}
-\left(\prod_{e\in\Ia}\chi(e^{y_e})\right)
-e^{-g^{-2}\varphi(y)-\psi(y)}\,\dd y,
-\end{equation}
-and its estimate is
-\begin{equation}\label{eq:summary-small-chart-bound}
-\begin{aligned}
-T_D^{\mathrm{small}}(g)
-&\le e^{-g^{-2}\varphi(m)-\eta D^2/2}\\
-&\quad\times\int_{\substack{|y-m|>gD\\\|y\|_\infty\le r_y}}
-\left(\prod_{e\in\Ia}\chi(e^{y_e})\right)e^{-\psi(y)}\,\dd y.
-\end{aligned}
-\end{equation}
-This is an intermediate estimate, to be used inside the appropriate
-plaquette region below.
+The central logarithm is estimated in
+\eqref{eq:combined-central-log-bound}. In the all-active sector,
+\eqref{eq:summary-good-bad-split} is the complementary good--bad split,
+and \eqref{eq:good-tail-two-term-bound}--\eqref{eq:good-tail-final-bound}
+control its plaquette-small part under the displayed conditions.
+Sections~\ref{sec:straight-hessian-stability}--\ref{sec:local-derivative-inputs}
+verify the local stationary, Hessian, geometric and derivative inputs
+for the straight-path reference links. The estimates for arbitrary
+frozen sectors, a common limiting parameter choice and the
+large-plaquette contribution are separate tasks.
 
-For the rest of the summary restrict to $\Ia=I$, with no frozen variables.
-Choose $0<h<\delta_*$ and put
-\begin{equation}\label{eq:summary-plaquette-region}
-G_h=\{U\in\mathcal U_\ell:
-d_G(P_p(U))\le h\text{ for every fine plaquette }p\}.
-\end{equation}
-Keep the central region
-\begin{equation}\label{eq:summary-central-region}
-C_V=\{U(V,m(V)+gz):z\in\g^I,\ |z|\le D\}.
-\end{equation}
-It is the image of the central Euclidean ball, not the whole small chart.
-
-Define the two complementary plaquette contributions by
-\begin{equation}\label{eq:summary-good-bad-definitions}
-\begin{aligned}
-T_D^{\mathrm{good}}(V)
-&=\int_{\substack{y\in\Omega,\ |y-m(V)|>gD\\U(V,y)\in G_h}}
-\left(\prod_{e\in I}\chi(e^{y_e})\right)
-e^{-g^{-2}\varphi(V,y)-\psi(V,y)}\,\dd y,\\
-T_D^{\mathrm{bad}}(V)
-&=\int_{\substack{y\in\Omega,\ |y-m(V)|>gD\\U(V,y)\notin G_h}}
-\left(\prod_{e\in I}\chi(e^{y_e})\right)
-e^{-g^{-2}\varphi(V,y)-\psi(V,y)}\,\dd y.
-\end{aligned}
-\end{equation}
-Their domains are disjoint and cover the tail, so
-\begin{equation}\label{eq:summary-good-bad-split}
-\boxed{T_D(g;V)=T_D^{\mathrm{good}}(V)+T_D^{\mathrm{bad}}(V).}
-\end{equation}
-The small-chart tail overlaps these two terms. It is therefore not added
-as a third term to \eqref{eq:summary-good-bad-split}.
-
-\subsection{The plaquette-small energy bound and its normalization}
-The geometric input is \eqref{eq:geometric-chart-input}.
-For $U=U(V,y)\in G_h\setminus C_V$, there are two cases.
-If $\|y\|_\infty\le r_y$, the small-chart Hessian bound gives the relative
-cost directly. If $\|y\|_\infty>r_y$, then $h<\delta_*$ and the geometric
-input imply a large mismatch:
-\begin{equation}\label{eq:summary-outside-chart-witness}
-\exists e:\quad d_G(V_eQ(U)_e^{-1})>\delta_*,
-\qquad A(V,U)\ge\frac{a\delta_*^2}{2}.
-\end{equation}
-Merely excluding $C_V$ would not imply this mismatch witness.
-
-For $V(x)_e=e^{x_e}$ near the identity, assume $R_e(\mathrm{id})=\mathrm{id}$
-and the coarse-coordinate row-sum bound
-\begin{equation}\label{eq:summary-coarse-row-sum}
-\sup_x\sup_i\sum_j
-\left|\partial_{x_i}\partial_{x_j}[\varphi(V(x),0)]\right|\le K_{\mathrm c}.
-\end{equation}
-The earlier calculation then gives
-\begin{equation}\label{eq:summary-stationary-energy}
-\varphi(V(x),m(V(x)))\le C\ell^4\|x\|_\infty^2.
-\end{equation}
-Under the two parameter conditions
-\begin{equation}\label{eq:summary-relative-cost-parameters}
-C\ell^4\|x\|_\infty^2\le\frac{a\delta_*^2}{4},
-\qquad g^2D^2\le\frac{a\delta_*^2}{2\eta},
-\end{equation}
-the two cases yield the common bound
-\begin{equation}\label{eq:summary-relative-cost}
-g^{-2}\bigl[A(V,U)-\varphi(V,m(V))\bigr]\ge\frac{\eta D^2}{2}
-\end{equation}
-on $G_h\setminus C_V$ within the chart image.
-
-Assume also the fine-coordinate upper bound
-\begin{equation}\label{eq:summary-fine-Hessian-input}
-H(V)\le K_{\mathrm H}\,\mathrm{Id},\qquad K_{\mathrm H}\ge1.
-\end{equation}
-The common relative cost, Haar probability mass and Gaussian normalization
-then give
-\begin{equation}\label{eq:summary-good-tail-prefactor}
-\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}
-\le\zeta_G^{-|I|}
-\exp\left(-\frac{\eta D^2}{2}+d\log\frac1g+Cd\right).
-\end{equation}
-In particular, if
-\begin{equation}\label{eq:summary-good-tail-radius}
-d\log\frac1g+Cd\le\frac{\eta D^2}{4},
-\end{equation}
-then
-\begin{equation}\label{eq:summary-good-tail-conclusion}
-\boxed{\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}
-\le\zeta_G^{-|I|}e^{-\eta D^2/4}.}
-\end{equation}
-The fixed Haar factor can alternatively be absorbed into $Cd$, as
-explained after \eqref{eq:good-tail-final-bound}. It is counted only once.
-
-\subsection{What remains to be proved}
-The exact identities are established, and the central and plaquette-small
-tail estimates follow from the stated inputs. The next model-dependent
-tasks are to choose $R_e(V)$, construct and control $m,H$, verify the
-geometric and derivative inputs, and estimate $T_D^{\mathrm{bad}}$.
-Sections~\ref{sec:straight-hessian-stability}--\ref{sec:straight-chart-entry}
-below verify the near-identity stationary and geometric inputs for the
-straight-path predictor. The plaquette-small bound above concerns the
-all-active sector; it does not supply the missing estimates for arbitrary
-frozen variables.
-
-Finally, the displayed global dimension is
-$d=|I|\dim_\R\g$, which grows with the physical lattice volume.
-The finite-dimensional estimate does not by itself establish the local
-bounds uniform in cutoff and volume needed for iteration. The comparison
-with a positive tail in \cite[Lemma~12.7, p.~44]{Exposition} identifies the
-value bound to be supplied; the later localization and activity estimates
-are separate steps. No such uniformity is inferred here solely by taking
-$g$ small or $D$ large.
 
 \section{The Hessian at the identity}\label{sec:identity-hessian}
 We now begin to verify the inputs used above. We remain in the all-active
@@ -2438,7 +2192,7 @@ Therefore
 The polynomial factor is summable against $q^n$, so
 \begin{equation}\label{eq:uniform-inverse-row-sum}
 \sup_e\sum_{e'}\|(H_0^{-1})_{ee'}\|_{\mathrm{op}}
-\le\frac{4L^4}{2K_0}\sum_{n=0}^\infty(2n+1)^4q^n=:M<\infty.
+\le\frac{4L^4}{2K_0}\sum_{n=0}^\infty(2n+1)^4q^n=:C_{\mathrm{inv}}<\infty.
 \end{equation}
 Finally,
 \begin{equation}\label{eq:uniform-maximum-inverse-bound}
@@ -2446,10 +2200,10 @@ Finally,
 \|(H_0^{-1}w)_e\|_{\mathrm{HS}}
 &\le\sum_{e'}\|(H_0^{-1})_{ee'}\|_{\mathrm{op}}
 \|w_{e'}\|_{\mathrm{HS}}\\
-&\le M\|w\|_\infty.
+&\le C_{\mathrm{inv}}\|w\|_\infty.
 \end{aligned}
 \end{equation}
-The constant $M$ depends on the fixed parameters, not the volume.
+The constant $C_{\mathrm{inv}}$ depends on the fixed parameters, not the volume.
 
 \subsection{The perturbation in the required operator norm}
 The implicit function argument below uses the maximum norm. We therefore
@@ -2501,17 +2255,17 @@ is $C^1$ on an open neighbourhood of
 $\{\|x\|_X\le r_x,\ \|y\|_Y\le r_y\}$, with
 \begin{equation}\label{eq:abstract-implicit-base}
 F(0,0)=0,\qquad A:=D_yF(0,0)\text{ invertible},\qquad
-\|A^{-1}\|_{Y\to Y}\le M.
+\|A^{-1}\|_{Y\to Y}\le C_{\mathrm{inv}}.
 \end{equation}
 Assume, throughout this product of balls,
 \begin{equation}\label{eq:abstract-implicit-inputs}
-\|D_yF(x,y)-A\|_{Y\to Y}\le\frac1{2M},\qquad
-\|D_xF(x,y)\|_{X\to Y}\le K,\qquad MKr_x\le\frac{r_y}{4}.
+\|D_yF(x,y)-A\|_{Y\to Y}\le\frac1{2C_{\mathrm{inv}}},\qquad
+\|D_xF(x,y)\|_{X\to Y}\le K,\qquad C_{\mathrm{inv}}Kr_x\le\frac{r_y}{4}.
 \end{equation}
 Then for each $\|x\|_X<r_x$ there is exactly one zero $y=\rho(x)$ with
 $\|y\|_Y\le r_y$. The map $\rho$ is $C^1$ and
 \begin{equation}\label{eq:abstract-implicit-conclusion}
-\rho(0)=0,\qquad \|\rho(x)\|_Y\le2MK\|x\|_X\le\frac{r_y}{2}.
+\rho(0)=0,\qquad \|\rho(x)\|_Y\le2C_{\mathrm{inv}}K\|x\|_X\le\frac{r_y}{2}.
 \end{equation}
 If $F$ is real analytic, so is $\rho$.
 \end{lemma}
@@ -2520,19 +2274,19 @@ Set $\mathcal T_x(y):=y-A^{-1}F(x,y)$. Its derivative in $y$ has norm
 at most $1/2$. Moreover,
 \begin{equation}\label{eq:abstract-contraction-centre}
 \|\mathcal T_x(0)\|_Y
-\le M\|F(x,0)-F(0,0)\|_Y\le MK\|x\|_X\le\frac{r_y}{4}.
+\le C_{\mathrm{inv}}\|F(x,0)-F(0,0)\|_Y\le C_{\mathrm{inv}}K\|x\|_X\le\frac{r_y}{4}.
 \end{equation}
 Thus $\mathcal T_x$ maps the closed $r_y$-ball into itself and is a
 contraction there. Its unique fixed point is the unique zero of $F$ in
 that ball. The fixed-point identity gives
 \begin{equation}\label{eq:abstract-fixed-point-size}
-\|\rho(x)\|_Y\le\tfrac12\|\rho(x)\|_Y+MK\|x\|_X,
+\|\rho(x)\|_Y\le\tfrac12\|\rho(x)\|_Y+C_{\mathrm{inv}}K\|x\|_X,
 \end{equation}
 which proves the size estimate and $\rho(0)=0$.
 
 The same comparison at two parameter values gives
-$\|\rho(x+h)-\rho(x)\|_Y\le2MK\|h\|_X$. Also $D_yF$ is invertible
-throughout the product of balls, with inverse norm at most $2M$.
+$\|\rho(x+h)-\rho(x)\|_Y\le2C_{\mathrm{inv}}K\|h\|_X$. Also $D_yF$ is invertible
+throughout the product of balls, with inverse norm at most $2C_{\mathrm{inv}}$.
 Expanding $F(x+h,\rho(x+h))-F(x,\rho(x))=0$ and using this Lipschitz
 bound proves
 \begin{equation}\label{eq:implicit-map-derivative}
@@ -2567,14 +2321,14 @@ In particular,
 Choose $r_x,r_y>0$, independent of the volume, so that
 \begin{equation}\label{eq:stationary-common-radii}
 r_x,r_y\le r_0,\qquad
-C\max(r_x,r_y)\le\min\left(\frac{\eta_0}{2},\frac1{2M}\right),
-\qquad MKr_x\le\frac{r_y}{4}.
+C\max(r_x,r_y)\le\min\left(\frac{\eta_0}{2},\frac1{2C_{\mathrm{inv}}}\right),
+\qquad C_{\mathrm{inv}}Kr_x\le\frac{r_y}{4}.
 \end{equation}
 The lemma gives a unique stationary point in the closed $r_y$-ball:
 \begin{equation}\label{eq:stationary-point-construction}
 \boxed{m(V(x)):=\rho(x),\qquad
 D_y\varphi(V(x),\rho(x))=0,\qquad
-\|\rho(x)\|_\infty\le2MK\|x\|_\infty.}
+\|\rho(x)\|_\infty\le2C_{\mathrm{inv}}K\|x\|_\infty.}
 \end{equation}
 The map is real analytic, since the finite products and matrix
 exponentials defining $\varphi$ are real analytic.
@@ -2599,6 +2353,25 @@ where one can take $K_{\mathrm H}:=K_0+Cr_0$ after enlarging the common
 constant $C$. This verifies the near-identity stationary and Hessian
 inputs in the all-active sector. It does not provide the corresponding
 estimates for arbitrary frozen variables.
+
+
+\subsection{An exponentially weighted inverse}
+The same finite-propagation argument gives a weighted bound when
+\begin{equation}\label{eq:analytic-weight-range}
+0\le\theta<-\log q.
+\end{equation}
+Indeed, $(A^n)_{ee'}=0$ for $d(e,e')>n$, so its weighted row sum is at
+most $4L^4(2n+1)^4(qe^\theta)^n$. Substitution in the Neumann series
+gives
+\begin{equation}\label{eq:weighted-inverse-row-sum}
+\boxed{\sup_e\sum_{e'}e^{\theta d(e,e')}
+\|(H_0^{-1})_{ee'}\|_{\mathrm{op}}
+\le\frac{4L^4}{2K_0}\sum_{n\ge0}(2n+1)^4(qe^\theta)^n
+=:C_{\mathrm{inv},\theta}<\infty.}
+\end{equation}
+For each fixed $\theta$ in this range the bound is independent of
+volume. This is the weighted inverse used in the analytic
+coefficient estimates below.
 
 \section{Small plaquettes and small blocking mismatches}\label{sec:straight-chart-entry}
 We now verify the geometric input \eqref{eq:geometric-chart-input} for
@@ -2825,15 +2598,520 @@ has $\|y\|_\infty<r_y$ and gives $U_e=e^{y_e}R_e(V)$ on free links,
 with the tree links fixed at one. This proves the claim.
 \end{proof}
 
-\begin{remark}
-The preceding verifications concern the straight-path predictor and the
-all-active near-identity calculation. They supply its stationary point,
-two-sided Hessian bounds, small-chart convexity and geometric chart entry.
-Central-cutoff compatibility, the higher derivative and Haar inputs,
-the remaining numerical conditions and the large-plaquette tail still
-require their stated estimates. Arbitrary frozen sectors are not covered
-by the stationary-point argument above.
-\end{remark}
+The preceding stationary and geometric constructions concern the
+all-active straight-path predictor. The next section verifies its
+local derivative and Haar inputs.
+
+\section{Local derivative sums and the Haar correction}\label{sec:local-derivative-inputs}
+We keep the straight-path reference links and the all-active sector.
+The estimates in this section verify the local inputs used in the
+central calculation. Bounds involving the first derivative of the Haar
+correction also require control of the Euclidean size of the centre.
+
+\subsection{Derivative sums for a local action}
+\begin{lemma}[Uniform derivative sums]\label{lem:local-derivative-sums}
+Let $r\ge2$ and let $z=(z_i)$ be a finite family of variables in $\g$.
+Suppose that $\varphi(z)=\sum_\alpha f_\alpha(z)$ is a finite sum of
+real-valued $C^r$ functions on a common open neighbourhood. Each
+$f_\alpha$ depends only on $(z_i)_{i\in S_\alpha}$. Assume
+\begin{equation}\label{eq:local-derivative-sum-inputs}
+|S_\alpha|\le s_*,\qquad
+\sup_i\#\{\alpha:i\in S_\alpha\}\le B_*,\qquad
+\|D_{i_1}\cdots D_{i_r}f_\alpha\|_{\mathrm{op}}\le c_r,
+\end{equation}
+allowing repeated indices. The operator norm is the supremum over
+Hilbert--Schmidt unit vectors in all $r$ slots. Then
+\begin{equation}\label{eq:local-derivative-row-sum}
+\boxed{\sup_{i_1}\sum_{i_2,\ldots,i_r}
+\|D_{i_1}\cdots D_{i_r}\varphi(z)\|_{\mathrm{op}}
+\le B_*s_*^{r-1}c_r=:C_r.}
+\end{equation}
+\end{lemma}
+\begin{proof}
+A derivative of $f_\alpha$ vanishes unless all its indices lie in
+$S_\alpha$. Therefore, for fixed $i_1$,
+\begin{equation}\label{eq:local-derivative-row-calculation}
+\begin{aligned}
+\sum_{i_2,\ldots,i_r}
+\|D_{i_1}\cdots D_{i_r}\varphi\|_{\mathrm{op}}
+&\le\sum_{\alpha:i_1\in S_\alpha}
+\sum_{i_2,\ldots,i_r\in S_\alpha}
+\|D_{i_1}\cdots D_{i_r}f_\alpha\|_{\mathrm{op}}\\
+&\le B_*s_*^{r-1}c_r.
+\end{aligned}
+\end{equation}
+\end{proof}
+
+Apply the lemma to the joint coordinates $z=(x,y)$ and
+$\varphi(z)=\varphi(V(x),y)$. A local term is a plaquette term or a
+blocking term. It reads only a bounded number of coordinates, and each
+coordinate occurs in a bounded number of local terms; these bounds
+depend on $L$, not the lattice volume. Each term is formed from a fixed
+number of matrix exponentials, products, inverses and traces. Its
+derivatives of any fixed order are bounded on the common coordinate
+neighbourhood. The argument of Appendix~\ref{sec:matrix-exponential-derivatives}
+applies at every fixed derivative order. Thus $C_r$ is independent of
+the volume for each fixed $r$.
+
+In particular, restricting to the coarse coordinates at $y=0$ gives
+\eqref{eq:coarse-row-sum-input}. Passing from link blocks to real
+components costs only a fixed factor depending on $\dim_\R\g$.
+This verifies the row-sum input in Section~\ref{sec:background-energy}.
+For the fine coordinates, symmetry of the derivative tensors also gives
+their Euclidean multilinear bounds. Indeed, write
+$a_{i_1,\ldots,i_r}=\|D_{i_1}\cdots D_{i_r}\varphi\|_{\mathrm{op}}$.
+Using $ab\le(a^2+b^2)/2$ in the first two slots and
+$\|u\|_\infty\le\|u\|_2$ in the remaining slots yields
+\begin{equation}\label{eq:local-derivatives-euclidean-bound}
+|D^r\varphi[u_1,\ldots,u_r]|
+\le C_r\prod_{\nu=1}^r\|u_\nu\|_2.
+\end{equation}
+Here the first two vectors may first be normalized to Euclidean norm
+one; the row bound and its symmetric column bound then give $C_r$.
+Taking $r=3,4$ supplies the action derivatives in
+\eqref{eq:central-derivative-inputs}.
+
+\subsection{Evenness and quadratic bounds for the Haar term}
+Put
+\begin{equation}\label{eq:haar-AX-definition}
+A_X:=\int_0^1e^{-t\ad X}\,\dd t,\qquad j_G(X)=|\det_\g A_X|.
+\end{equation}
+The identity
+\begin{equation}\label{eq:haar-evenness-calculation}
+A_{-X}=e^{\ad X}A_X,\qquad
+e^{\ad X}Y=e^XYe^{-X},\qquad
+\|e^{\ad X}Y\|_{\mathrm{HS}}=\|Y\|_{\mathrm{HS}}
+\end{equation}
+shows that $|\det_\g e^{\ad X}|=1$. Consequently
+\begin{equation}\label{eq:haar-density-even}
+j_G(-X)=j_G(X),\qquad j_G(0)=1,\qquad D\log j_G(0)=0.
+\end{equation}
+Choose the fixed chart radius $r_y$ strictly below $r_G$. The function
+$-\log j_G$ is smooth on a neighbourhood of its closed ball, and its
+second derivative has a fixed bound. Taylor's formula at zero gives
+\begin{equation}\label{eq:one-link-haar-bounds}
+|\log j_G(X)|\le C\|X\|_{\mathrm{HS}}^2,\qquad
+\|D\log j_G(X)\|\le C\|X\|_{\mathrm{HS}},\qquad
+\|D^2\log j_G(X)\|\le C.
+\end{equation}
+Since $\psi(y)=-\sum_{e\in I}\log j_G(y_e)$, its Hessian is block
+diagonal. Summation and Cauchy--Schwarz therefore give
+\begin{equation}\label{eq:haar-euclidean-bounds}
+\boxed{|\psi(y)|\le C\|y\|_2^2,\qquad
+\|D_y\psi(y)\|_{\mathrm{op}}\le C\|y\|_2,\qquad
+\|D_y^2\psi(y)\|_{\mathrm{op}}\le C.}
+\end{equation}
+These constants are independent of the number of links.
+
+\subsection{The central trajectories}
+Let $C_\rho:=2C_{\mathrm{inv}}K$, so that
+\eqref{eq:stationary-point-construction} gives
+$\|m(V(x))\|_\infty\le C_\rho\|x\|_\infty$. For
+$|g|\le g_*$, $|z|\le D$ and $0\le t\le1$,
+\begin{equation}\label{eq:central-trajectory-two-norms}
+\begin{aligned}
+\|m(V(x))+tgz\|_\infty
+&\le C_\rho\|x\|_\infty+g_*D,\\
+\|m(V(x))+tgz\|_2
+&\le\sqrt{|I|}\,C_\rho\|x\|_\infty+g_*D
+\le C\ell^2\|x\|_\infty+g_*D.
+\end{aligned}
+\end{equation}
+The first bound keeps the trajectories in the small chart when its
+right side is less than $r_y$. The second, together with
+\eqref{eq:haar-euclidean-bounds}, supplies a common bound on
+$D_y\psi$ whenever $\ell^2\|x\|_\infty+g_*D$ is bounded.
+Together with the preceding local derivative bounds, these are
+sufficient conditions for \eqref{eq:central-derivative-inputs} in this
+all-active calculation. Central cutoff compatibility additionally
+requires that the first right side lie in the fixed region where
+$\chi(e^X)=1$.
+
+
+\section{The plaquette-small integral}\label{sec:plaquette-small-integral}
+We now compare the plaquette-small integral with its central Gaussian
+part. The straight-path reference configuration gives a direct
+criterion for the central region $C_V$ to lie in $G_h$.
+
+\begin{lemma}[The central region is plaquette-small]\label{lem:central-plaquette-small}
+Let $U=U(V(x),y)$ and suppose $|y-m(V(x))|\le gD$. Then
+\begin{equation}\label{eq:central-plaquette-bound}
+\max_p d_G(P_p(U))
+\le\frac4{\sqrt N}\left[(1+C_\rho)\|x\|_\infty+gD\right].
+\end{equation}
+In particular, $C_V\subseteq G_h$ whenever the right side is at most
+$h$ and the central region lies in the coordinate chart.
+\end{lemma}
+\begin{proof}
+For $X\in\g$, unitarity and
+$e^X-I=\int_0^1e^{tX}X\,\dd t$ give
+$\|e^X-I\|_{\mathrm{HS}}\le\|X\|_{\mathrm{HS}}$.
+An internal free link therefore satisfies
+$\|U_e-I\|_{\mathrm{HS}}\le\|y_e\|_{\mathrm{HS}}$.
+For a crossing link,
+\begin{equation}\label{eq:central-crossing-link-bound}
+\|e^{y_e}e^{x_b}-I\|_{\mathrm{HS}}
+\le\|e^{y_e}-I\|_{\mathrm{HS}}+\|e^{x_b}-I\|_{\mathrm{HS}}
+\le\|y_e\|_{\mathrm{HS}}+\|x_b\|_{\mathrm{HS}}.
+\end{equation}
+The same distance bound holds for the reverse link. Telescoping the
+four factors in a plaquette gives
+\begin{equation}\label{eq:central-plaquette-telescope}
+d_G(P_p(U))\le\frac4{\sqrt N}
+\bigl(\|y\|_\infty+\|x\|_\infty\bigr),\qquad
+\|y\|_\infty\le C_\rho\|x\|_\infty+gD.
+\end{equation}
+Combining these inequalities proves the claim.
+\end{proof}
+
+Assume central cutoff compatibility and $C_V\subseteq G_h$. Splitting
+the plaquette-small domain into its central part and its remaining
+tail gives the exact identity
+\begin{equation}\label{eq:plaquette-small-normalized-identity}
+\begin{aligned}
+&\int_{\{y\in\Omega:\,U(V,y)\in G_h\}}
+\Theta(V,y)e^{-g^{-2}\varphi(V,y)-\psi(y)}\,\dd y\\
+&\qquad=N_g(V)\left[Z_D(g;V)
++\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}\right].
+\end{aligned}
+\end{equation}
+Here $\Theta(V,y)=\prod_{e\in I}\chi(e^{y_e})$ in the all-active
+sector. The inclusion of the central region is needed for this
+identity.
+
+For $z>0$ and $s\ge0$,
+\begin{equation}\label{eq:positive-log-addition}
+|\log(z+s)|\le|\log z|+\log(1+s)\le|\log z|+s.
+\end{equation}
+If $z\ge1$, use $z+s\le z(1+s)$. If $z\le1$, use
+$\log z\le\log(z+s)\le\log(1+s)$.
+Since \eqref{eq:central-B-choice} gives $B(K_*,D)\le C(K_*)D^6$
+for $D\ge1$, the central estimate and
+\eqref{eq:good-tail-final-bound} imply
+\begin{equation}\label{eq:plaquette-small-log-error}
+\begin{aligned}
+&\left|\log\left[Z_D(g;V)
++\frac{T_D^{\mathrm{good}}(V)}{N_g(V)}\right]\right|\\
+&\quad\le C(K_*)g^2D^6
++4d\exp\left(-\frac{\eta D^2}{2d}\right)
++e^{-\eta D^2/8}+e^{-a\delta_*^2/(8g^2)}.
+\end{aligned}
+\end{equation}
+The bound retains the global dimension and the full dependence on
+$D$. It is conditional on the central and tail conditions stated above.
+
+The remaining dependence of the normalization on the coarse field is
+also explicit. Since $m(\id)=0$, $\varphi(\id,0)=0$ and $\psi(0)=0$,
+\begin{equation}\label{eq:normalization-relative-logarithm}
+-\log\frac{N_g(V(x))}{N_g(\id)}
+=g^{-2}\Psi(x)+\psi(m(V(x)))
++\frac12\log\frac{\det H(V(x))}{\det H_0},
+\qquad
+\Psi(x):=\varphi(V(x),m(V(x))).
+\end{equation}
+We next study the stationary energy $\Psi$.
+
+
+\section{The stationary energy and its quadratic term}\label{sec:stationary-energy}
+All partial derivatives $\varphi_{xx},\varphi_{xy},\varphi_{yx}$ and
+$\varphi_{yy}$ in this section refer to the joint coordinate map
+$(x,y)\mapsto\varphi(V(x),y)$. Gradients and adjoints use the real
+Hilbert--Schmidt inner products on the corresponding link arrays.
+
+\subsection{Differentiating at the stationary point}
+Stationarity removes the derivative of the centre from the first
+derivative:
+\begin{equation}\label{eq:stationary-energy-first-derivative}
+\begin{aligned}
+D\Psi(x)[v]
+&=\varphi_x(x,m(V(x)))[v]
++\varphi_y(x,m(V(x)))[D_x(m\circ V)(x)[v]]\\
+&=\varphi_x(x,m(V(x)))[v].
+\end{aligned}
+\end{equation}
+Differentiating the stationary equation at zero gives
+\begin{equation}\label{eq:stationary-centre-linear-response}
+\varphi_{yx}(0,0)+H_0D_x(m\circ V)(0)=0,\qquad
+D_x(m\circ V)(0)=-H_0^{-1}\varphi_{yx}(0,0).
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:stationary-energy-schur-complement}
+\boxed{D^2\Psi(0)
+=\varphi_{xx}(0,0)
+-\varphi_{xy}(0,0)H_0^{-1}\varphi_{yx}(0,0).}
+\end{equation}
+The right side is the Schur complement of the fine-coordinate Hessian
+block $H_0$ in the joint Hessian.
+
+\subsection{The joint Hessian at zero}
+For a coarse variation $v$, define its linear reference lift by
+\begin{equation}\label{eq:linear-reference-lift}
+(R_0v)_e:=\begin{cases}
+0,&e\text{ is internal to a block},\\
+v_b,&e\text{ crosses the face corresponding to }b.
+\end{cases}
+\end{equation}
+Extend $u$ by zero on tree links. Expanding the exponentials gives
+\begin{equation}\label{eq:joint-link-linearization}
+U(V(tv),tu)_e
+=I+t\bigl(u_e+(R_0v)_e\bigr)+O(t^2),\qquad
+P_p(U)=I+t\bigl(d(u+R_0v)\bigr)_p+O(t^2).
+\end{equation}
+The symbol $d$ in the second expression is the discrete curl from
+Section~\ref{sec:identity-hessian}.
+For $\gamma_b=(e_1,\ldots,e_L)$, only the final link crosses a block
+boundary. Hence
+\begin{equation}\label{eq:joint-blocking-linearization}
+\begin{aligned}
+Q(U)_b&=e^{tu_{e_1}}\cdots e^{tu_{e_L}}e^{tv_b},\\
+V(tv)_bQ(U)_b^{-1}
+&=e^{-tu_{e_L}}\cdots e^{-tu_{e_1}}
+=I-t\sum_{e\in\gamma_b}u_e+O(t^2).
+\end{aligned}
+\end{equation}
+Using $q_G(M(t))=t^2\|\dot M(0)\|_{\mathrm{HS}}^2/(2N)+O(t^3)$
+for $M(0)=I$ yields
+\begin{equation}\label{eq:joint-hessian-quadratic-form}
+\boxed{\left.\frac{\dd^2}{\dd t^2}\right|_{t=0}
+\varphi(V(tv),tu)
+=\frac1N\sum_p\|\bigl(d(u+R_0v)\bigr)_p\|_{\mathrm{HS}}^2
++\frac aN\sum_b\|(Q_0u)_b\|_{\mathrm{HS}}^2.}
+\end{equation}
+Here $(Q_0u)_b=\sum_{e\in\gamma_b}u_e$, as in the identity-Hessian
+calculation. Expanding the square identifies the blocks:
+\begin{equation}\label{eq:joint-hessian-blocks}
+\begin{aligned}
+\varphi_{xx}(0,0)[v,v]
+&=\frac1N\sum_p\|(dR_0v)_p\|_{\mathrm{HS}}^2,\\
+\varphi_{yy}(0,0)[u,u]&=H_0[u,u],\\
+\varphi_{xy}(0,0)[v,u]
+&=\frac1N\sum_p\langle(du)_p,(dR_0v)_p\rangle_{\mathrm{HS}}.
+\end{aligned}
+\end{equation}
+The mixed term is bilinear, and the normalization of $H_0$ is the one
+in \eqref{eq:identity-hessian}.
+
+\subsection{A variational form of the Schur complement}
+\begin{lemma}[Schur complement]\label{lem:schur-complement}
+Let
+\begin{equation}\label{eq:schur-complement-definition}
+\mathcal H=\begin{pmatrix}A&B\\B^{\mathsf T}&C\end{pmatrix},\qquad
+A=A^{\mathsf T},\quad C=C^{\mathsf T}>0,\qquad
+S:=A-BC^{-1}B^{\mathsf T}.
+\end{equation}
+Then
+\begin{equation}\label{eq:schur-completion-of-square}
+\begin{pmatrix}x\\y\end{pmatrix}^{\mathsf T}
+\mathcal H\begin{pmatrix}x\\y\end{pmatrix}
+=x^{\mathsf T}Sx+
+(y+C^{-1}B^{\mathsf T}x)^{\mathsf T}
+C(y+C^{-1}B^{\mathsf T}x).
+\end{equation}
+In particular,
+\begin{equation}\label{eq:schur-variational-form}
+x^{\mathsf T}Sx
+=\min_y\begin{pmatrix}x\\y\end{pmatrix}^{\mathsf T}
+\mathcal H\begin{pmatrix}x\\y\end{pmatrix},\qquad
+y_*=-C^{-1}B^{\mathsf T}x,\qquad
+\det\mathcal H=\det S\det C.
+\end{equation}
+The minimizer is unique.
+\end{lemma}
+\begin{proof}
+Expanding the last square in
+\eqref{eq:schur-completion-of-square} proves the identity and the
+minimum claim. Multiplying $\mathcal H$ on the right by
+$\left(\begin{smallmatrix}I&0\\-C^{-1}B^{\mathsf T}&I\end{smallmatrix}\right)$
+gives $\left(\begin{smallmatrix}S&B\\0&C\end{smallmatrix}\right)$;
+the multiplier has determinant one.
+\end{proof}
+
+Apply the lemma with the coarse and fine blocks of the joint Hessian.
+Equations~\eqref{eq:stationary-energy-schur-complement} and
+\eqref{eq:joint-hessian-quadratic-form} give
+\begin{equation}\label{eq:stationary-energy-variational-form}
+\boxed{D^2\Psi(0)[v,v]
+=\min_{u\in\g^I}\left\{
+\frac1N\sum_p\|\bigl(d(u+R_0v)\bigr)_p\|_{\mathrm{HS}}^2
++\frac aN\sum_b\|(Q_0u)_b\|_{\mathrm{HS}}^2\right\}.}
+\end{equation}
+Thus the quadratic coarse energy is obtained by minimizing the joint
+quadratic energy over the fine variation.
+
+\begin{example}[An affine Gaussian control calculation]\label{ex:schur-gaussian-control}
+With the matrices of Lemma~\ref{lem:schur-complement}, put
+$F_x(y)=\tfrac12x^{\mathsf T}Ax+x^{\mathsf T}By$ and
+$Y=C^{-1/2}W_1$, where $C^{-1/2}$ is the symmetric positive square
+root of $C^{-1}$ and $W$ is a standard Brownian motion of the
+fine-coordinate dimension. The Gaussian exponential identity gives
+\begin{equation}\label{eq:schur-gaussian-expectation}
+-\log\mathbb E[e^{-F_x(Y)}]
+=\frac12x^{\mathsf T}(A-BC^{-1}B^{\mathsf T})x.
+\end{equation}
+This is the affine Gaussian instance of the control expression in the
+Bou\'e--Dupuis variational formula \cite{BoueDupuis98}. In this instance
+the control value follows directly by completing a square:
+\begin{equation}\label{eq:schur-gaussian-control-value}
+\begin{aligned}
+&\inf_u\mathbb E\left[
+F_x\left(C^{-1/2}\left(W_1+\int_0^1u_t\,\dd t\right)\right)
++\frac12\int_0^1|u_t|^2\,\dd t\right]\\
+&\quad=\frac12x^{\mathsf T}Ax+
+\inf_u\mathbb E\int_0^1
+\left(\frac12|u_t|^2+x^{\mathsf T}BC^{-1/2}u_t\right)\,\dd t\\
+&\quad=\frac12x^{\mathsf T}(A-BC^{-1}B^{\mathsf T})x.
+\end{aligned}
+\end{equation}
+The infimum is over progressively measurable processes with
+$\mathbb E\int_0^1|u_t|^2\,\dd t<\infty$ and is attained by the
+deterministic drift $u_t=-C^{-1/2}B^{\mathsf T}x$.
+\end{example}
+
+
+\section{A volume-uniform analytic expansion}\label{sec:weighted-analytic-energy}
+We strengthen the maximum-norm estimate for the stationary point to
+an estimate on its Taylor coefficients. The organisation into weighted
+field-map norms, substitution and implicit equations follows
+\cite[Sections~2--4]{BFKT16}; the bounds needed for the present
+coordinate norms are proved below. The spatial weights are
+measured on the coarse torus, with the distance used in
+\eqref{eq:coarse-link-distance}. Fix $\theta$ in the range
+\eqref{eq:analytic-weight-range} throughout this section.
+Constants and analytic radii may depend on this fixed $\theta$ and on
+the fixed group and blocking data, but not on $M$ or $\e$.
+
+\subsection{Weighted coefficient norms}
+Attach each coarse coordinate $x_b$ to the initial coarse site of
+$b$. Attach a fine coordinate $y_e$ to the coarse site of the block
+containing the initial endpoint of $e$. For any list of coordinate
+indices $i_0,\ldots,i_k$, let $\tau(i_0,\ldots,i_k)$ be the minimum
+total length of a tree containing their attached sites. Additional
+coarse vertices are allowed, and edge lengths are measured by the
+coarse distance. Repetitions do not change the required sites, and
+$\tau(i_0)=0$.
+
+For an analytic map $F=(F_i)$ between finite coordinate arrays in
+$\g$, use its symmetric Taylor coefficients:
+\begin{equation}\label{eq:analytic-map-coefficients}
+\begin{aligned}
+F_i(z)&=\sum_{k\ge0}\sum_{j_1,\ldots,j_k}
+F^{[k]}_{i;j_1,\ldots,j_k}[z_{j_1},\ldots,z_{j_k}],\\
+F^{[k]}_{i;j_1,\ldots,j_k}
+&:=\frac1{k!}D_{j_1}\cdots D_{j_k}F_i(0).
+\end{aligned}
+\end{equation}
+The factorial belongs to the coefficient. For a multilinear kernel
+$T$, define
+\begin{equation}\label{eq:weighted-kernel-norm}
+|T|_{\theta,k}:=\sup_i\sum_{j_1,\ldots,j_k}
+e^{\theta\tau(i,j_1,\ldots,j_k)}
+\|T_{i;j_1,\ldots,j_k}\|_{\mathrm{op}},\qquad
+\mathcal A_{r,\theta}(F):=\sum_{k\ge0}r^k|F^{[k]}|_{\theta,k}.
+\end{equation}
+For $k=0$ the first expression means $\sup_i\|F_i(0)\|_{\mathrm{HS}}$.
+For $k=1$ it is the exponentially weighted matrix row-sum norm.
+
+We use three estimates, whose detailed proofs are given in
+Appendices~\ref{sec:weighted-substitution}--\ref{sec:stationary-analytic-coefficients}.
+First, substitution preserves these coefficient bounds:
+\begin{equation}\label{eq:weighted-substitution-summary}
+\Gamma(0)=0,\quad\mathcal A_{r,\theta}(\Gamma)\le s
+\quad\Longrightarrow\quad
+\mathcal A_{r,\theta}(F\circ\Gamma)\le\mathcal A_{s,\theta}(F),
+\end{equation}
+provided the displayed Taylor expansions represent $\Gamma$ and $F$
+on the corresponding open balls and the norm on the right is finite.
+Second, locality of the joint action gives
+\begin{equation}\label{eq:joint-gradient-analytic-summary}
+\mathcal A_{r,\theta}(\nabla\varphi)\le C_\varphi r,
+\qquad 0<r\le r_0.
+\end{equation}
+Here $\varphi(z)=\varphi(V(x),y)$ for $z=(x,y)$, and $r_0$ may be
+decreased from the common coordinate radius used earlier.
+Third, the stationary equation and the weighted inverse bound
+\eqref{eq:weighted-inverse-row-sum} imply
+\begin{equation}\label{eq:stationary-analytic-summary}
+\mathcal A_{r,\theta}(m\circ V)\le Cr
+\end{equation}
+for sufficiently small $r$ independent of the volume.
+
+\subsection{The stationary-energy coefficients}
+\begin{proposition}[A volume-uniform analytic expansion]\label{prop:stationary-energy-analytic}
+For each fixed $\theta$ satisfying \eqref{eq:analytic-weight-range},
+there are $r_*>0$ and $C<\infty$, independent of volume, such that
+\begin{equation}\label{eq:stationary-energy-series}
+\Psi(x)=\sum_{k=2}^\infty\sum_{b_1,\ldots,b_k}
+a^{(k)}_{b_1,\ldots,b_k}[x_{b_1},\ldots,x_{b_k}],\qquad
+\|x\|_\infty<r_*,
+\end{equation}
+where
+\begin{equation}\label{eq:stationary-energy-taylor-coefficients}
+a^{(k)}_{b_1,\ldots,b_k}
+:=\frac1{k!}D_{x_{b_1}}\cdots D_{x_{b_k}}\Psi(0).
+\end{equation}
+For $0<r\le r_*$,
+\begin{equation}\label{eq:stationary-energy-weighted-coefficients}
+\boxed{\sum_{k=2}^\infty r^k\sup_{b_1}\sum_{b_2,\ldots,b_k}
+e^{\theta\tau(b_1,\ldots,b_k)}
+\|a^{(k)}_{b_1,\ldots,b_k}\|_{\mathrm{op}}\le Cr^2.}
+\end{equation}
+\end{proposition}
+\begin{proof}
+Put $\Gamma(x)=(x,m(V(x)))$. By
+\eqref{eq:stationary-analytic-summary},
+$\mathcal A_{r,\theta}(\Gamma)\le(1+C)r$.
+Apply substitution to the coarse components of $\nabla\varphi$ and
+decrease $r_*$ so that $(1+C)r_*\le r_0$. Stationarity gives
+\begin{equation}\label{eq:stationary-gradient-analytic-bound}
+G(x):=\nabla\Psi(x)=\nabla_x\varphi(x,m(V(x))),\qquad
+\mathcal A_{r,\theta}(G)\le Cr.
+\end{equation}
+Moreover $\Psi(0)=0$ and $D\Psi(0)=0$.
+For $k\ge2$, the normalized Taylor coefficients satisfy, for any
+directions $v_1,\ldots,v_k\in\g$,
+\begin{equation}\label{eq:energy-gradient-coefficient-relation}
+a^{(k)}_{b_1,\ldots,b_k}[v_1,\ldots,v_k]
+=\frac1k\left\langle v_1,
+G^{[k-1]}_{b_1;b_2,\ldots,b_k}[v_2,\ldots,v_k]
+\right\rangle_{\mathrm{HS}}.
+\end{equation}
+The tree weight is the same on both sides. Consequently
+\begin{equation}\label{eq:energy-coefficient-sum-calculation}
+\begin{aligned}
+&\sum_{k\ge2}r^k\sup_{b_1}\sum_{b_2,\ldots,b_k}
+e^{\theta\tau(b_1,\ldots,b_k)}
+\|a^{(k)}_{b_1,\ldots,b_k}\|_{\mathrm{op}}\\
+&\qquad=\sum_{k\ge2}\frac{r^k}{k}|G^{[k-1]}|_{\theta,k-1}
+\le r\,\mathcal A_{r,\theta}(G)\le Cr^2.
+\end{aligned}
+\end{equation}
+The absolutely convergent Taylor series represents $\Psi$ on the
+stated ball. Summing over the remaining anchor $b_1$ gives a total
+energy bound proportional to the number of coarse links.
+\end{proof}
+
+\begin{lemma}[A weighted Hessian row sum]\label{lem:stationary-energy-hessian-row}
+After decreasing $r_*$ if necessary, for $\|x\|_\infty\le r_*/2$,
+\begin{equation}\label{eq:stationary-energy-hessian-row}
+\sup_b\sum_{b'}e^{\theta d(b,b')}
+\|D_{x_b}D_{x_{b'}}\Psi(x)\|_{\mathrm{op}}\le C,\qquad
+\sup_b\|\nabla_{x_b}\Psi(x)\|_{\mathrm{HS}}\le C\|x\|_\infty.
+\end{equation}
+Here $d(b,b')$ is the distance of the initial coarse sites.
+\end{lemma}
+\begin{proof}
+Differentiate the series for $G$ inside its radius of convergence.
+Since $d(b,b')\le\tau(b,b',\ldots)$,
+\begin{equation}\label{eq:stationary-hessian-series-bound}
+\sup_b\sum_{b'}e^{\theta d(b,b')}
+\|D_{x_{b'}}G_b(x)\|_{\mathrm{op}}
+\le\sum_{n\ge1}n\|x\|_\infty^{n-1}|G^{[n]}|_{\theta,n}
+\le\frac2{r_*}\mathcal A_{r_*,\theta}(G)\le C.
+\end{equation}
+For the gradient estimate, integrate this Hessian along $tx$,
+$0\le t\le1$, and use $G(0)=0$.
+\end{proof}
+
 
 \appendix
 \section{Haar measure in exponential coordinates}\label{sec:haar-appendix}
@@ -3299,6 +3577,339 @@ norm gives
 \end{equation}
 \end{proof}
 
+\section{Substitution of analytic maps}\label{sec:weighted-substitution}
+We use the coefficient norms of
+\eqref{eq:analytic-map-coefficients}--\eqref{eq:weighted-kernel-norm}.
+The input, intermediate and output indices may belong to different
+finite sets, each with its specified attached coarse sites.
+
+\begin{lemma}[Weighted substitution]\label{lem:weighted-substitution}
+Let $r,s>0$ and $\theta\ge0$. Suppose the Taylor expansions of
+$\Gamma$ and $F$ represent them on $\|x\|_\infty<r$ and
+$\|z\|_\infty<s$, respectively. If
+\begin{equation}\label{eq:weighted-substitution-inputs}
+\Gamma(0)=0,\qquad\mathcal A_{r,\theta}(\Gamma)\le s,\qquad
+\mathcal A_{s,\theta}(F)<\infty,
+\end{equation}
+then $F\circ\Gamma$ is defined on $\|x\|_\infty<r$ and
+\begin{equation}\label{eq:weighted-substitution-bound}
+\mathcal A_{r,\theta}(F\circ\Gamma)
+\le\mathcal A_{s,\theta}(F).
+\end{equation}
+\end{lemma}
+\begin{proof}
+\emph{The domain.} Write $\rho=\|x\|_\infty<r$. Since the
+constant coefficient of $\Gamma$ is zero,
+\begin{equation}\label{eq:substitution-domain-calculation}
+\|\Gamma(x)\|_\infty
+\le\sum_{q\ge1}\rho^q|\Gamma^{[q]}|_{\theta,q}
+\le\frac\rho r\mathcal A_{r,\theta}(\Gamma)
+\le\frac\rho r s<s.
+\end{equation}
+
+\emph{The coefficients.} Fix $p\ge1$ and positive integers
+$q_1,\ldots,q_p$ with sum $n$. Divide an ordered input list
+$(k_1,\ldots,k_n)$ into consecutive lists $\vec k_\nu$ of lengths
+$q_\nu$, and divide its direction vectors in the same way. The
+corresponding multilinear term is
+\begin{equation}\label{eq:substitution-multilinear-term}
+\begin{aligned}
+&C^{q_1,\ldots,q_p}_{i;\vec k_1,\ldots,\vec k_p}
+[\vec X_1,\ldots,\vec X_p]\\
+&\quad:=\sum_{j_1,\ldots,j_p}F^{[p]}_{i;j_1,\ldots,j_p}
+\left[
+\Gamma^{[q_1]}_{j_1;\vec k_1}[\vec X_1],\ldots,
+\Gamma^{[q_p]}_{j_p;\vec k_p}[\vec X_p]
+\right].
+\end{aligned}
+\end{equation}
+The symmetric degree-$n$ coefficient of $H:=F\circ\Gamma$ is
+obtained by summing these terms over $p$ and $q_1+\cdots+q_p=n$
+and symmetrizing the input slots. Symmetrization means the average
+over all simultaneous permutations of the input indices and their
+direction vectors. It does not increase the weighted coefficient
+sum, since the weight and the full input-index sum are invariant
+under these permutations.
+
+The union of a tree through $i,j_1,\ldots,j_p$ and trees through
+$j_\nu,\vec k_\nu$ is connected and contains all required input
+sites. Removing cycles therefore gives
+\begin{equation}\label{eq:substitution-tree-inequality}
+\tau(i,k_1,\ldots,k_n)
+\le\tau(i,j_1,\ldots,j_p)
++\sum_{\nu=1}^p\tau(j_\nu,\vec k_\nu).
+\end{equation}
+For each fixed composition $q_1+\cdots+q_p=n$, this implies
+\begin{equation}\label{eq:substitution-coefficient-product}
+\begin{aligned}
+&\sup_i\sum_{\vec k_1,\ldots,\vec k_p}
+e^{\theta\tau(i,\vec k_1,\ldots,\vec k_p)}
+\|C^{q_1,\ldots,q_p}_{i;\vec k_1,\ldots,\vec k_p}\|_{\mathrm{op}}\\
+&\quad\le\sup_i\sum_{j_1,\ldots,j_p}
+e^{\theta\tau(i,j_1,\ldots,j_p)}
+\|F^{[p]}_{i;j_1,\ldots,j_p}\|_{\mathrm{op}}\\
+&\qquad\quad\times\prod_{\nu=1}^p
+\left[\sum_{\vec k_\nu}
+e^{\theta\tau(j_\nu,\vec k_\nu)}
+\|\Gamma^{[q_\nu]}_{j_\nu;\vec k_\nu}\|_{\mathrm{op}}\right]\\
+&\quad\le |F^{[p]}|_{\theta,p}
+\prod_{\nu=1}^p|\Gamma^{[q_\nu]}|_{\theta,q_\nu}.
+\end{aligned}
+\end{equation}
+Consequently
+\begin{equation}\label{eq:substitution-degree-convolution}
+|H^{[n]}|_{\theta,n}
+\le\sum_{p=1}^n\sum_{\substack{q_1+\cdots+q_p=n\\q_\nu\ge1}}
+|F^{[p]}|_{\theta,p}\prod_{\nu=1}^p
+|\Gamma^{[q_\nu]}|_{\theta,q_\nu}.
+\end{equation}
+Summing the nonnegative majorants gives
+\begin{equation}\label{eq:substitution-series-calculation}
+\begin{aligned}
+\mathcal A_{r,\theta}(H)
+&\le |F^{[0]}|_{\theta,0}
++\sum_{p\ge1}|F^{[p]}|_{\theta,p}
+\left(\sum_{q\ge1}r^q|\Gamma^{[q]}|_{\theta,q}\right)^p\\
+&\le\sum_{p\ge0}s^p|F^{[p]}|_{\theta,p}
+=\mathcal A_{s,\theta}(F).
+\end{aligned}
+\end{equation}
+These same majorants justify the absolutely convergent substitution
+on every smaller open ball.
+\end{proof}
+
+
+\section{Analytic coefficients of the joint gradient}\label{sec:local-analytic-gradient}
+Write $z=(x,y)$ and $\varphi(z)=\sum_\alpha f_\alpha(z)$.
+The index $\alpha$ is a fine plaquette or a coarse link, and
+$S_\alpha$ is the set of coordinate indices read by that local term.
+All coordinates are attached to coarse sites as in
+Section~\ref{sec:weighted-analytic-energy}.
+
+\begin{lemma}[A weighted bound for the joint gradient]\label{lem:local-analytic-gradient}
+For each fixed $\theta\ge0$ there are $r_0>0$ and
+$C_\varphi<\infty$, independent of volume, such that
+\begin{equation}\label{eq:joint-gradient-local-analytic-bound}
+\begin{aligned}
+\mathcal A_{r,\theta}(\nabla\varphi)
+&\le\sum_{k\ge1}\frac{r^k}{k!}\sup_{\iota_0}
+\sum_{\alpha:\iota_0\in S_\alpha}e^{\theta|T_\alpha|}
+\sum_{\iota_1,\ldots,\iota_k\in S_\alpha}
+\|D_{\iota_0}\cdots D_{\iota_k}f_\alpha(0)\|_{\mathrm{op}}\\
+&\le C_\varphi r,\qquad 0<r\le r_0.
+\end{aligned}
+\end{equation}
+Here $T_\alpha$ is a tree containing the sites attached to
+$S_\alpha$, and $|T_\alpha|$ is its total length. The radius $r_0$
+may be decreased from the earlier common coordinate radius.
+\end{lemma}
+\begin{proof}
+\emph{The local supports and their trees.} A fine plaquette reads
+at most four fine coordinates and four coarse reference coordinates.
+If it crosses two block faces, their attached sites belong to
+$\{v,v+e_i,v+e_j\}$; crossing one face or none gives a subset of
+such a set. Take the tree with edges from $v$ to $v+e_i$ and from
+$v$ to $v+e_j$, omitting unnecessary edges. Its length is at most
+two. The positive fine links on a straight coarse path all start
+inside its initial block, so the support of a blocking term is
+attached to a single coarse site and its tree has length zero.
+Thus
+\begin{equation}\label{eq:local-support-tree-bound}
+\tau(\iota_0,\ldots,\iota_k)\le|T_\alpha|\le2
+\quad\text{if }\iota_0,\ldots,\iota_k\in S_\alpha.
+\end{equation}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[ym/base,x=1cm,y=1cm]
+  \draw[black!25,dashed] (2.2,-.35)--(2.2,3.0);
+  \draw[black!25,dashed] (-.35,2.2)--(3.0,2.2);
+  \draw[ym/midarrow,blue!65!black] (1.4,1.4)--(2.2,1.4);
+  \draw[ym/midarrow,blue!65!black] (2.2,1.4)--(2.2,2.2);
+  \draw[ym/midarrow,blue!65!black] (2.2,2.2)--(1.4,2.2);
+  \draw[ym/midarrow,blue!65!black] (1.4,2.2)--(1.4,1.4);
+  \foreach \x/\y/\lab in {0/0/v,2.2/0/{v+e_i},0/2.2/{v+e_j}} {
+    \node[ym/dot] at (\x,\y) {};
+    \node[below=3pt] at (\x,\y) {$\lab$};
+  }
+  \node[ym/dot,fill=black!25] at (2.2,2.2) {};
+  \node[above=3pt,text=black!45] at (2.2,2.2) {$v+e_i+e_j$};
+  \node at (1.1,-.9) {coordinate support};
+  \begin{scope}[xshift=6cm]
+    \draw[ym/edge] (0,2.2)--(0,0)--(2.2,0);
+    \foreach \x/\y/\lab in {0/0/v,2.2/0/{v+e_i},0/2.2/{v+e_j}} {
+      \node[ym/dot] at (\x,\y) {};
+      \node[below=3pt] at (\x,\y) {$\lab$};
+    }
+    \node at (1.1,-.9) {$|T_p|\le2$};
+  \end{scope}
+\end{tikzpicture}
+\caption{A fine plaquette crossing two block faces and a tree joining
+the parent coarse sites of the coordinates it reads. The positive
+links of its top and right sides start in the upper-left and
+lower-right blocks, respectively. The upper-right coarse site is
+not needed in the support tree. The picture is schematic.}
+\label{fig:local-analytic-support-tree}
+\end{figure}
+
+\emph{Local Taylor coefficients.} For real coordinates,
+$q_G(W)=1-N^{-1}\operatorname{Re}\tr W$. Each local term is
+therefore a constant plus a fixed multiple of the real trace of a
+product of a bounded number of factors $e^{z_\iota}$ or
+$e^{-z_\iota}$. For every $n\ge1$,
+\begin{equation}\label{eq:exponential-derivatives-at-zero-all-orders}
+D^n\exp_0[Z_1,\ldots,Z_n]
+=\frac1{n!}\sum_{\sigma\in\mathcal S_n}
+Z_{\sigma(1)}\cdots Z_{\sigma(n)},\qquad
+\|D^n\exp_0[Z_1,\ldots,Z_n]\|_{\mathrm{HS}}
+\le\prod_{\nu=1}^n\|Z_\nu\|_{\mathrm{HS}}.
+\end{equation}
+In this formula $\mathcal S_n$ denotes the set of permutations of
+$\{1,\ldots,n\}$. Distributing $n$ labelled derivatives among the
+bounded number of exponential factors gives at most $C^n$ terms.
+Undifferentiated factors are identities, and the trace costs only a
+fixed group-dependent factor. Increasing $C$ gives
+\begin{equation}\label{eq:local-action-analytic-derivative-bound}
+\|D_{\iota_1}\cdots D_{\iota_n}f_\alpha(0)\|_{\mathrm{op}}
+\le C^n\le C^n n!,\qquad n\ge1.
+\end{equation}
+
+\emph{The anchored sum.} The joint gradient vanishes at zero.
+Its degree-$k$ coefficient, paired with a unit vector in the output
+slot $\iota_0$, is $D_{\iota_0}\cdots D_{\iota_k}\varphi(0)/k!$.
+Only terms containing all these indices contribute. The triangle
+inequality and \eqref{eq:local-support-tree-bound} give the first
+line of \eqref{eq:joint-gradient-local-analytic-bound}.
+The bounds $|S_\alpha|\le s_*$ and
+$\sup_{\iota_0}\#\{\alpha:\iota_0\in S_\alpha\}\le B_*$ from
+Lemma~\ref{lem:local-derivative-sums} then imply
+\begin{equation}\label{eq:joint-gradient-analytic-series-calculation}
+\begin{aligned}
+\mathcal A_{r,\theta}(\nabla\varphi)
+&\le B_*e^{2\theta}\sum_{k\ge1}
+\frac{r^k}{k!}s_*^k C^{k+1}(k+1)!\\
+&=B_*Ce^{2\theta}\sum_{k\ge1}(s_*Cr)^k(k+1)
+\le C_\varphi r
+\end{aligned}
+\end{equation}
+when $r_0$ is chosen so that $s_*Cr_0\le1/2$.
+Anchoring $\iota_0$ permits the use of $B_*$; summing the scalar
+action over all possible anchors would introduce the volume factor.
+\end{proof}
+
+
+\section{Analytic coefficients of the stationary point}\label{sec:stationary-analytic-coefficients}
+Fix $0\le\theta<-\log q$. We use the weighted inverse estimate
+\eqref{eq:weighted-inverse-row-sum} and
+Lemma~\ref{lem:local-analytic-gradient}.
+
+\begin{lemma}[The stationary-point coefficients]\label{lem:stationary-analytic-coefficients}
+There are $r_*>0$ and $C<\infty$, independent of volume, such that
+\begin{equation}\label{eq:stationary-point-analytic-coefficient-bound}
+\mathcal A_{r,\theta}(m\circ V)\le Cr,\qquad 0<r\le r_*.
+\end{equation}
+\end{lemma}
+\begin{proof}
+\emph{The stationary equation.} Its fixed-point form is
+\begin{equation}\label{eq:analytic-stationary-fixed-point-map}
+y=\mathcal I(x,y),\qquad
+\mathcal I(x,y):=y-H_0^{-1}\nabla_y\varphi(V(x),y).
+\end{equation}
+At zero, $\mathcal I(0,0)=0$ and $D_y\mathcal I(0,0)=0$.
+Put
+\begin{equation}\label{eq:analytic-stationary-linear-remainder}
+\begin{aligned}
+B&:=-H_0^{-1}\varphi_{yx}(0,0),\\
+\mathcal R(x,y)&:=\mathcal I(x,y)-Bx\\
+&=-H_0^{-1}\bigl[\nabla_y\varphi(V(x),y)
+-\varphi_{yx}(0,0)x-H_0y\bigr].
+\end{aligned}
+\end{equation}
+Thus $\mathcal R(0,0)=0$, $D\mathcal R(0,0)=0$, and the equation is
+$y=Bx+\mathcal R(x,y)$.
+
+\emph{The linear and nonlinear coefficient bounds.} The weighted
+matrix row-sum norm is submultiplicative, by the triangle inequality
+for the coarse distance. Hence
+\begin{equation}\label{eq:analytic-stationary-linear-bound}
+|B|_{\theta,1}
+\le C_{\mathrm{inv},\theta}
+|\varphi_{yx}(0,0)|_{\theta,1}<\infty
+\end{equation}
+uniformly in volume. For $k\ge2$,
+$\mathcal R^{[k]}=-H_0^{-1}(\nabla_y\varphi)^{[k]}$.
+Lemma~\ref{lem:local-analytic-gradient} therefore gives, for
+$0<s\le r_0$,
+\begin{equation}\label{eq:analytic-stationary-remainder-bound}
+\begin{aligned}
+\mathcal A_{s,\theta}(\mathcal R)
+&\le C_{\mathrm{inv},\theta}
+\sum_{k\ge2}s^k|(\nabla_y\varphi)^{[k]}|_{\theta,k}\\
+&\le C_{\mathrm{inv},\theta}\left(\frac{s}{r_0}\right)^2
+\mathcal A_{r_0,\theta}(\nabla\varphi)
+\le C_{\mathrm{inv},\theta}C_\varphi\frac{s^2}{r_0}.
+\end{aligned}
+\end{equation}
+
+\emph{Uniform bounds for the iterates.} Start with
+\begin{equation}\label{eq:analytic-stationary-iteration}
+y^{(0)}(x)=0,\qquad
+y^{(n+1)}(x)=Bx+\mathcal R(x,y^{(n)}(x)).
+\end{equation}
+Choose $C\ge2|B|_{\theta,1}+1$. If
+$\mathcal A_{r,\theta}(y^{(n)})\le Cr$, then
+$\mathcal A_{r,\theta}((x,y^{(n)}))\le(1+C)r$.
+For $(1+C)r\le r_0$, weighted substitution gives
+\begin{equation}\label{eq:analytic-stationary-iterate-bound}
+\begin{aligned}
+\mathcal A_{r,\theta}(y^{(n+1)})
+&\le r|B|_{\theta,1}
++\mathcal A_{(1+C)r,\theta}(\mathcal R)\\
+&\le r|B|_{\theta,1}
++C_{\mathrm{inv},\theta}C_\varphi
+\frac{(1+C)^2r^2}{r_0}\le Cr,
+\end{aligned}
+\end{equation}
+after a further fixed decrease of $r$. Induction gives this bound
+for every iterate, uniformly in volume.
+
+\emph{Stabilization of each coefficient.} The remainder has total
+degree at least two; pure $x$ terms and pure $y$ terms are allowed.
+In particular,
+\begin{equation}\label{eq:analytic-stationary-first-iterate}
+y^{(1)}(x)=Bx+\mathcal R(x,0)=Bx+O(\|x\|_\infty^2).
+\end{equation}
+We claim that $y^{(n+1)}-y^{(n)}$ has no terms of degree below
+$n+1$. This holds for $n=0$. In the difference
+\begin{equation}\label{eq:analytic-stationary-difference}
+y^{(n+1)}-y^{(n)}
+=\mathcal R(x,y^{(n)})-\mathcal R(x,y^{(n-1)}),
+\end{equation}
+pure $x$ terms cancel. In every remaining term, one $y$ factor can
+be replaced by $y^{(n)}-y^{(n-1)}$, and at least one further factor
+has positive degree. If the former difference starts at degree
+$n$, the new one starts at degree $n+1$. This proves the claim.
+
+For each degree $k$, the coefficients have therefore stabilized by
+$n\ge k$. Define $\widetilde m$ from these stabilized coefficients.
+For each finite $N$, the coefficients through degree $N$ agree with
+those of a sufficiently late iterate, so
+\begin{equation}\label{eq:analytic-stationary-limit-bound}
+\sum_{k=1}^N r^k|\widetilde m^{[k]}|_{\theta,k}\le Cr,
+\qquad
+\mathcal A_{r,\theta}(\widetilde m)\le Cr.
+\end{equation}
+The second inequality follows by increasing $N$. The series is
+absolutely convergent on $\|x\|_\infty<r$, and its coefficient
+identity gives $\widetilde m=Bx+\mathcal R(x,\widetilde m)$ there.
+Shrink the common radius so that $r\le r_x$ and $Cr<r_y$.
+The uniqueness established in
+Lemma~\ref{lem:quantitative-implicit-function} identifies
+$\widetilde m(x)=m(V(x))$. This proves the estimate for all smaller
+radii as well.
+\end{proof}
+
+
 % Embedded bibliography, following the amsalphaabbr style of the reference template.
 \begin{thebibliography}{Ba{\l}87}
 \bibitem[Ba{\l}87]{Bal87}
@@ -3318,6 +3929,17 @@ Comm. Math. Phys. \textbf{99} (1985), 75--102.
 J.~Dimock,
 \emph{Covariant Axial Gauge},
 \href{https://arxiv.org/abs/1410.2798v3}{arXiv:1410.2798v3}.
+\bibitem[BD98]{BoueDupuis98}
+M.~Bou\'e and P.~Dupuis,
+\emph{A variational representation for certain functionals of Brownian motion},
+Ann. Probab. \textbf{26} (1998), no.~4, 1641--1659.
+\href{https://doi.org/10.1214/aop/1022855876}{doi:10.1214/aop/1022855876}.
+\bibitem[BFKT16]{BFKT16}
+T.~Ba{\l}aban, J.~Feldman, H.~Kn\"orrer and E.~Trubowitz,
+\emph{Power Series Representations for Complex Bosonic Effective Actions.
+III. Substitution and Fixed Point Equations},
+\href{https://arxiv.org/abs/1609.00961v1}{arXiv:1609.00961v1},
+Sections~2--4.
 \bibitem[Main]{Exposition}
 \emph{Reading Notes on Four-Dimensional Yang--Mills Theory},
 AI-generated working exposition, maintained by Zexi He, publication copy of
